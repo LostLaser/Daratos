@@ -3,80 +3,52 @@ import numpy
 from keras.preprocessing.text import Tokenizer
 import pickle
 
-left_leaning = ['Atlantic', 'Buzzfeed News', 'Guardian', 'New York Times', 'CNN', 'Vox', 'Washington Post']
+#left_leaning = ['Atlantic', 'Buzzfeed News', 'Guardian', 'New York Times', 'CNN', 'Vox', 'Washington Post']
 #right_leaning = ['Breitbart', 'National Review','New York Post']
-right_leaning = ['Fox News', 'National Review', 'New York Post', 'Breitbart']
+#right_leaning = ['Fox News', 'National Review', 'New York Post', 'Breitbart']
+right_leaning = ['Breitbart']
+left_leaning = ['Vox', 'Buzzfeed News']
+data_list = ['all-the-news/articles1.csv', 'all-the-news/articles2.csv', 'all-the-news/articles3.csv']
 
 def load_data():
-    bias_list_train = []
-    content_list_train = []
-    bias_list_test = []
-    content_list_test = []
+    left_list_cont = []
+    left_list_bias = []
+    right_list_cont = []
+    right_list_bias = []
     
-    with open('all-the-news/articles2.csv', encoding='utf8', errors='replace') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        line_count = 0
-        red_count = 0
-        for row in csv_reader:
-            #reading only content rows
-            if line_count !=0:
-                #checking if source is right leaning
-                for source in right_leaning:
-                    if source == row[0]:
-                        bias_list_train.append(1)
-                        content_list_train.append(row[1])
-                        red_count += 1
-                #checking if source is left leaning
-                for source in left_leaning:
-                    if source == row[0]:
-                        bias_list_train.append(0)
-                        content_list_train.append(row[1])
-            line_count += 1
+    for source in data_list: 
+        with open(source, encoding='utf8', errors='replace') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            line_count = 0
+            red_count = 0
+            for row in csv_reader:
+                #reading only content rows
+                if line_count !=0:
+                    #checking if source is right leaning
+                    for source in right_leaning:
+                        if source == row[0]:
+                            right_list_bias.append(1)
+                            right_list_cont.append(row[1].strip())
+                            red_count += 1
+                    #checking if source is left leaning
+                    for source in left_leaning:
+                        if source == row[0]:
+                            left_list_bias.append(0)
+                            left_list_cont.append(row[1])
+                line_count += 1
 
-    with open('all-the-news/articles3.csv', encoding='utf8', errors='replace') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        line_count = 0
-        red_count = 0
-        for row in csv_reader:
-            #reading only content rows
-            if line_count !=0:
-                #checking if source is right leaning
-                for source in right_leaning:
-                    if source == row[0]:
-                        bias_list_train.append(1)
-                        content_list_train.append(row[1])
-                        red_count += 1
-                #checking if source is left leaning
-                for source in left_leaning:
-                    if source == row[0]:
-                        bias_list_train.append(0)
-                        content_list_train.append(row[1])
-            line_count += 1
-
-    with open('all-the-news/articles1.csv', encoding='utf8', errors='replace') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        line_count = 0
-        red_count = 0
-        for row in csv_reader:
-            #reading only content rows
-            if line_count !=0:
-                #checking if source is right leaning
-                for source in right_leaning:
-                    if source == row[0]:
-                        bias_list_test.append(1)
-                        content_list_test.append(row[1])
-                        red_count += 1
-                #checking if source is left leaning
-                for source in left_leaning:
-                    if source == row[0]:
-                        bias_list_test.append(0)
-                        content_list_test.append(row[1])
-            line_count += 1
+    bias_list_train = right_list_bias[:int(len(right_list_bias)*0.8)]
+    bias_list_train.extend(left_list_bias[:int(len(left_list_bias)*0.8)])
+    content_list_train = right_list_cont[:int(len(right_list_cont)*0.8)]
+    content_list_train.extend(left_list_cont[:int(len(left_list_cont)*0.8)])
+    bias_list_test = right_list_bias[int(len(right_list_bias)*0.8):]
+    bias_list_test.extend(left_list_bias[int(len(left_list_bias)*0.8):])
+    content_list_test = right_list_cont[int(len(right_list_cont)*0.8):]
+    content_list_test.extend(left_list_cont[int(len(left_list_cont)*0.8):])
 
     # create the tokenizer from file
     with open('tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
-    #t = Tokenizer(num_words=None, filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n', lower=True, split=' ')
 
     
     encoded_content_train = tokenizer.texts_to_sequences(content_list_train)

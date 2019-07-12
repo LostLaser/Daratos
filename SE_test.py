@@ -9,6 +9,7 @@ from keras.preprocessing import sequence
 from keras.layers import Dense, Dropout
 from keras.layers import Embedding
 from keras.layers import LSTM
+from keras import optimizers
 import Read
 
 # fix random seed for reproducibility
@@ -29,13 +30,18 @@ X_test = sequence.pad_sequences(X_test, maxlen=max_words)
 model = Sequential()
 model.add(Embedding(top_words, 32, input_length=max_words))
 model.add(Flatten())
+model.add(Dense(500, activation='relu'))
 model.add(Dense(250, activation='relu'))
+model.add(Dense(250, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(50, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+optim = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
+model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])
 print(model.summary())
 
 # Fit the model
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=3, batch_size=128, verbose=1)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=6, batch_size=128, verbose=1)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test)
 
