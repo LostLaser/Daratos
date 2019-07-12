@@ -6,7 +6,7 @@ import pickle
 #left_leaning = ['Atlantic', 'Buzzfeed News', 'Guardian', 'New York Times', 'CNN', 'Vox', 'Washington Post']
 #right_leaning = ['Breitbart', 'National Review','New York Post']
 #right_leaning = ['Fox News', 'National Review', 'New York Post', 'Breitbart']
-right_leaning = ['Breitbart']
+right_leaning = ['Breitbart', 'National Review', 'New York Post']
 left_leaning = ['Vox', 'Buzzfeed News']
 data_list = ['all-the-news/articles1.csv', 'all-the-news/articles2.csv', 'all-the-news/articles3.csv']
 
@@ -37,6 +37,8 @@ def load_data():
                             left_list_cont.append(row[1])
                 line_count += 1
 
+    print("Right leaning articles: " + str(len(right_list_bias)))
+    print("Left leaning articles: " + str(len(left_list_bias)))
     bias_list_train = right_list_bias[:int(len(right_list_bias)*0.8)]
     bias_list_train.extend(left_list_bias[:int(len(left_list_bias)*0.8)])
     content_list_train = right_list_cont[:int(len(right_list_cont)*0.8)]
