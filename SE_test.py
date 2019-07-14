@@ -1,5 +1,3 @@
-# MLP for the IMDB problem
-import numpy
 from keras.datasets import imdb
 from keras.models import Sequential
 from keras.layers import Dense
@@ -10,11 +8,10 @@ from keras.layers import Dense, Dropout
 from keras.layers import Embedding
 from keras.layers import LSTM
 from keras import optimizers
+from keras import callbacks
+from datetime import datetime
 import Read
 
-# fix random seed for reproducibility
-seed = 7
-numpy.random.seed(seed)
 #####################
 # Load data from csvs
 top_words = 15000
@@ -25,6 +22,10 @@ print(top_words)
 max_words = 1000
 X_train = sequence.pad_sequences(X_train, maxlen=max_words)
 X_test = sequence.pad_sequences(X_test, maxlen=max_words)
+
+#Setting up tensorboard
+logdir="logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = callbacks.TensorBoard(log_dir=logdir)
 
 # create the model
 model = Sequential()
@@ -43,7 +44,13 @@ model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])
 print(model.summary())
 
 # Fit the model
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=6, batch_size=128, verbose=1)
+model.fit(
+        X_train, y_train,
+        validation_data=(X_test, y_test), 
+        epochs=6, 
+        batch_size=64, 
+        verbose=0,
+        callbacks=[tensorboard_callback],)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test)
 

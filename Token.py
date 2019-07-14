@@ -1,44 +1,47 @@
 import numpy
-from keras.datasets import imdb
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import Flatten
-from keras.layers.embeddings import Embedding
 from keras.preprocessing import sequence
 from keras.preprocessing.text import Tokenizer
 import pandas
 import pickle
 import csv
 
-docs1 = ['Well done!',
-		'Good work',
+docs1 = ['Well done is a great phrase!',
+		'Good work everyone! Now it is time for the second',
 		'Great effort',
-		'nice work',
-		'Excellent!']
+		'nice workers',
+		'Excellent! excellent']
 
 colnames = ['publication','content']
-#data= pandas.read_csv('all-the-news/articles2.csv', nrows=1000, names = colnames, error_bad_lines=False)
-#docs = data.content.tolist()
-#print (docs)
 bias_list_train = []
 content_list_train = []
 bias_list_test = []
 content_list_test = []
 docs=[]
 line_count = 0
-with open('all-the-news/articles2.csv', encoding='utf8', errors='replace') as csv_file:
+
+with open('all-the-news/articles2_cleaned.csv', encoding='utf8', errors='replace') as csv_file:
 		csv_reader = csv.reader(csv_file)
 		for row in csv_reader:
-			docs.extend([row[1]])
+			if(line_count != 0):
+				row_content = row[1]
+				docs.extend([row_content])
+				if(line_count > 20000):
+					break
+			line_count+=1
+
 print(len(docs))
+#print(docs[1])
 # create the tokenizer
 t = Tokenizer(num_words=15000, filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n', lower=True, split=' ')
 # fit the tokenizer on the documents
 t.fit_on_texts(docs)
-#print(t.word_docs)
+#print(t.word_index)
 
-encoded_docs = t.texts_to_sequences(docs1)
-print(encoded_docs)
+encoded_docs = t.texts_to_sequences(docs)
+#print(encoded_docs)
+print(len(docs[0]))
+print(encoded_docs[0])
+print("Word count: "+str(t.num_words))
 
 with open('tokenizer.pickle', 'wb') as handle:
 	pickle.dump(t, handle, protocol=pickle.HIGHEST_PROTOCOL)

@@ -8,7 +8,7 @@ import pickle
 #right_leaning = ['Fox News', 'National Review', 'New York Post', 'Breitbart']
 right_leaning = ['Breitbart', 'National Review', 'New York Post']
 left_leaning = ['Vox', 'Buzzfeed News']
-data_list = ['all-the-news/articles1.csv', 'all-the-news/articles2.csv', 'all-the-news/articles3.csv']
+data_list = ['all-the-news/articles1_cleaned.csv', 'all-the-news/articles2_cleaned.csv', 'all-the-news/articles3_cleaned.csv']
 
 def load_data():
     left_list_cont = []
@@ -28,7 +28,7 @@ def load_data():
                     for source in right_leaning:
                         if source == row[0]:
                             right_list_bias.append(1)
-                            right_list_cont.append(row[1].strip())
+                            right_list_cont.append(row[1])
                             red_count += 1
                     #checking if source is left leaning
                     for source in left_leaning:
@@ -55,6 +55,7 @@ def load_data():
     
     encoded_content_train = tokenizer.texts_to_sequences(content_list_train)
     encoded_content_test = tokenizer.texts_to_sequences(content_list_test)
+    print(encoded_content_train[0])
     #print(type(encoded_content_train))
 
     content_train = numpy.array(encoded_content_train)
@@ -73,6 +74,6 @@ def load_data():
     #print(len(content_test))
     #print(len(bias_test))
 
-    return (content_train, bias_train),(content_test,bias_test), len(tokenizer.word_index) + 1 
+    return (content_train, bias_train),(content_test,bias_test), tokenizer.num_words 
 
 #load_data()
