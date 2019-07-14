@@ -107,3 +107,4 @@ venv.bak/
 /all-the-news/*
 *.h5
 *.pickle
+/logs/*
