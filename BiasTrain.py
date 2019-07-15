@@ -16,8 +16,6 @@ import Read
 # Load data from csvs
 top_words = 15000
 (X_train, y_train), (X_test, y_test), top_words = Read.load_data()
-print(type(top_words))
-print(top_words)
 
 max_words = 1000
 X_train = sequence.pad_sequences(X_train, maxlen=max_words)
@@ -47,9 +45,9 @@ print(model.summary())
 model.fit(
         X_train, y_train,
         validation_data=(X_test, y_test), 
-        epochs=6, 
+        epochs=8, 
         batch_size=64, 
-        verbose=0,
+        verbose=1,
         callbacks=[tensorboard_callback],)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test)

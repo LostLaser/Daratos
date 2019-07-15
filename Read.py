@@ -3,9 +3,6 @@ import numpy
 from keras.preprocessing.text import Tokenizer
 import pickle
 
-#left_leaning = ['Atlantic', 'Buzzfeed News', 'Guardian', 'New York Times', 'CNN', 'Vox', 'Washington Post']
-#right_leaning = ['Breitbart', 'National Review','New York Post']
-#right_leaning = ['Fox News', 'National Review', 'New York Post', 'Breitbart']
 right_leaning = ['Breitbart', 'National Review', 'New York Post']
 left_leaning = ['Vox', 'Buzzfeed News']
 data_list = ['all-the-news/articles1_cleaned.csv', 'all-the-news/articles2_cleaned.csv', 'all-the-news/articles3_cleaned.csv']
@@ -55,7 +52,7 @@ def load_data():
     
     encoded_content_train = tokenizer.texts_to_sequences(content_list_train)
     encoded_content_test = tokenizer.texts_to_sequences(content_list_test)
-    print(encoded_content_train[0])
+    #print(encoded_content_train[0])
     #print(type(encoded_content_train))
 
     content_train = numpy.array(encoded_content_train)
