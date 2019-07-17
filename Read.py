@@ -3,7 +3,8 @@ import numpy
 from keras.preprocessing.text import Tokenizer
 import pickle
 
-right_leaning = ['Breitbart', 'National Review', 'New York Post']
+#right_leaning = ['Breitbart', 'National Review', 'New York Post']
+right_leaning = ['Breitbart']
 left_leaning = ['Vox', 'Buzzfeed News']
 data_list = ['all-the-news/articles1_cleaned.csv', 'all-the-news/articles2_cleaned.csv', 'all-the-news/articles3_cleaned.csv']
 
@@ -22,16 +23,14 @@ def load_data():
                 #reading only content rows
                 if line_count !=0:
                     #checking if source is right leaning
-                    for source in right_leaning:
-                        if source == row[0]:
-                            right_list_bias.append(1)
-                            right_list_cont.append(row[1])
-                            red_count += 1
+                    if row[0] in right_leaning:
+                        right_list_bias.append(1)
+                        right_list_cont.append(row[1])
+                        red_count += 1
                     #checking if source is left leaning
-                    for source in left_leaning:
-                        if source == row[0]:
-                            left_list_bias.append(0)
-                            left_list_cont.append(row[1])
+                    elif row[0] in left_leaning:
+                        left_list_bias.append(0)
+                        left_list_cont.append(row[1])
                 line_count += 1
 
     print("Right leaning articles: " + str(len(right_list_bias)))

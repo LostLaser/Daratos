@@ -9,6 +9,7 @@ from keras.layers import Embedding
 from keras.layers import LSTM
 from keras import optimizers
 from keras import callbacks
+from keras import layers
 from datetime import datetime
 import Read
 
@@ -29,13 +30,10 @@ tensorboard_callback = callbacks.TensorBoard(log_dir=logdir)
 model = Sequential()
 model.add(Embedding(top_words, 32, input_length=max_words))
 model.add(Flatten())
-model.add(Dense(500, activation='relu'))
-model.add(Dense(250, activation='relu'))
-model.add(Dense(250, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(100, activation='relu'))
-model.add(Dropout(0.5))
 model.add(Dense(50, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(25, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 optim = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
 model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])
@@ -48,7 +46,8 @@ model.fit(
         epochs=8, 
         batch_size=64, 
         verbose=1,
-        callbacks=[tensorboard_callback],)
+        callbacks=[tensorboard_callback],
+        validation_split=0.1)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test)
 
