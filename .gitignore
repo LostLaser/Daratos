@@ -104,7 +104,8 @@ venv.bak/
 .mypy_cache/
 
 # Ignore input/output files
-/all-the-news/*
+*/all-the-news/*
 *.h5
 *.pickle
-/logs/*
+*.csv
+*/logs/scalars/*
