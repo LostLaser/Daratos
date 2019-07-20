@@ -29,16 +29,14 @@ def main():
                 read_file.close()
                 write_file.close()
                 break
-            elif (not label == 's') or (not label == 'd') or (not label == 'f'):
-                # s == left, d == neutral, f == right
-                if label == 's':
-                    label = 'l'
-                if label == 'd':
-                    label = 'n'
-                if label == 'f':
-                    label = 'r'  
-                if label == 'i':
-                    label = 'INVALID'  
+            if label == 's':
+                label = 'l'
+            if label == 'd':
+                label = 'n'
+            if label == 'f':
+                label = 'r'  
+            if label == 'i':
+                label = 'INVALID'  
                 write_cursor.writerow([row[0], row[1], label])
         
 
