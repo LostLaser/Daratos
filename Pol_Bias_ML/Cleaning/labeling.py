@@ -2,12 +2,20 @@ import csv
 import sys
 
 def main():
+    start_point_file = open('line_start.txt','r')
+    stop_point = str(start_point_file.readline())
+    print('Previous stop point is ' + stop_point + '.')
+    start_point = int(input('Input -1 if you want to start here or enter a different number: '))
+    if start_point == -1:
+        start_point = int(stop_point)
+
     char_list = ['s','d','f','q','i']
     read_file = open(str(sys.argv[1]), encoding='utf8', errors='replace')
     read_cursor = csv.reader(read_file)
     write_file = open('out_file.csv', encoding='utf8', mode='a', newline='')
     write_cursor = csv.writer(write_file, delimiter=',')
-    start_point = int(sys.argv[2])
+    
+
     if start_point < 1:
         print ('Start point too low...')
         return
@@ -37,7 +45,7 @@ def main():
                 label = 'r'  
             if label == 'i':
                 label = 'INVALID'  
-                write_cursor.writerow([row[0], row[1], label])
+            write_cursor.writerow([row[0], row[1], label])
         
 
 if __name__ == "__main__":
