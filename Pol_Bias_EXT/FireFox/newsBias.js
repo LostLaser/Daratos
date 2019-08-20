@@ -1,11 +1,8 @@
-window.addEventListener('mouseup', itemSelected);
-
-function itemSelected() {
-    let selectedText = window.getSelection().toString()
-    if (selectedText.length > 0) {
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        let selectedText = window.getSelection().toString()
         let message = {
-            text: selectedText
+            content_dirty: selectedText
         };
-        chrome.runtime.sendMessage(message);
-    }
-}
+        sendResponse(message);
+    });
