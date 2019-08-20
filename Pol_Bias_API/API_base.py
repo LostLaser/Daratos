@@ -4,6 +4,9 @@ from flask import request, jsonify
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+@app.route('/', methods=['GET'])
+def info():
+    return "Welcome to the political bias API! Go to /bias if you are wanting to get a rating!"
 
 @app.route('/health', methods=['GET'])
 def home():
