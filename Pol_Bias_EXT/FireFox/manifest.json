@@ -1,0 +1,24 @@
+{
+
+    "manifest_version": 2,
+    "name": "Bias Checker",
+    "version": "1.0",
+
+    "description": "Checks news articles for political bias",
+  
+    "icons": {
+      "48": "icons/border-48.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["newsBias.js"]
+      }
+    ],
+    "browser_action": {
+      "default_icon": "icons/border-48.png",
+      "default_popup": "popup/index.html",
+      "default_title": "Retrieve A Bias"
+    }
+    
+  }

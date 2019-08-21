@@ -1,6 +1,7 @@
 import csv
 import numpy
 from keras.preprocessing.text import Tokenizer
+from keras.utils import to_categorical
 import pickle
 
 #right_leaning = ['Breitbart', 'National Review', 'New York Post']
@@ -29,7 +30,7 @@ def load_data():
                         red_count += 1
                     #checking if source is left leaning
                     elif row[0] in left_leaning:
-                        left_list_bias.append(0)
+                        left_list_bias.append(2)
                         left_list_cont.append(row[1])
                 line_count += 1
 
@@ -51,6 +52,9 @@ def load_data():
     
     encoded_content_train = tokenizer.texts_to_sequences(content_list_train)
     encoded_content_test = tokenizer.texts_to_sequences(content_list_test)
+    bias_list_train = to_categorical(bias_list_train)
+    bias_list_test = to_categorical(bias_list_test)
+    print(bias_list_test[0])
     #print(encoded_content_train[0])
     #print(type(encoded_content_train))
 
