@@ -2,6 +2,7 @@ import nltk
 import string
 import re
 
+
 def clean(inp, stemmer, stop_words):
 	row_content = inp
 	row_content=row_content.lower()
