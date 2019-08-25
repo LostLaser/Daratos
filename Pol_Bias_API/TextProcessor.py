@@ -15,6 +15,8 @@ class ProcessRaw:
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
 
     def full_clean(self, content):
+        if not content:
+            return [[]]
         content=content.lower()
         content=re.sub(r'\d+', '', content)
         content=content.translate(str.maketrans('','', string.punctuation))
