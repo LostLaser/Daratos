@@ -8,13 +8,13 @@ from keras.preprocessing.text import Tokenizer
 import keras
 import tensorflow as tf
 import sys
-import TexProcessor
+import TextProcessor
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 #Loading items needed for prediction
-full_processor = TexProcessor.ProcessRaw()
+full_processor = TextProcessor.ProcessRaw()
 graph = tf.get_default_graph()
 model = load_model('sentenceModel.h5')
 model._make_predict_function()
@@ -31,7 +31,8 @@ def home():
 def bias_calc():
     content=request.args.get('content',type = str)
     content_train = full_processor.full_clean(content)
-
+    if len(content_train) == 0:
+        return jsonify({'lean': "Nothing selected"}) 
     with graph.as_default():
         outputs = model.predict(content_train)
     print(outputs)

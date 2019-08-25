@@ -18,10 +18,10 @@ import read
 top_words = 15000
 (X_train, y_train), (X_test, y_test), top_words = read.load_data()
 
-max_words = 150
+max_words = 50
 X_train = sequence.pad_sequences(X_train, maxlen=max_words)
 X_test = sequence.pad_sequences(X_test, maxlen=max_words)
-
+print(X_train[0])
 #Setting up tensorboard
 logdir="logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = callbacks.TensorBoard(log_dir=logdir)
@@ -53,4 +53,4 @@ scores = model.evaluate(X_test, y_test)
 
 print("Accuracy: %.2f%%" % (scores[1]*100))
 
-#model.save('Models/my_model.h5')
+model.save('../../Pol_Bias_API/sentenceModel.h5')
