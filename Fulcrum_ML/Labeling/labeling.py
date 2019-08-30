@@ -3,6 +3,12 @@ import sys
 import os
 
 def main():
+    '''
+    Tool to assist with labeling 
+
+    Parameters: 
+        file_name (str): Command line argument for file to read from in csv format
+    '''
     if os.path.exists('start_points/'+str(sys.argv[1]).split('.')[0]+'.txt'):
         start_point_file = open('start_points/'+str(sys.argv[1]).split('.')[0]+'.txt','r')
         stop_point = str(start_point_file.readline())

@@ -77,7 +77,4 @@ def load_data():
     content_test = numpy.array(encoded_content_test)
     bias_test = numpy.array(bias_list_test)
     
-
     return (content_train, bias_train),(content_test,bias_test), tokenizer.num_words 
-
-#load_data()

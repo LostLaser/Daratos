@@ -29,6 +29,12 @@ def home():
 
 @app.route('/bias', methods=['GET'])
 def bias_calc():
+    '''
+    Endpoint to determine the bias of the specified news article
+
+    Returns:
+        Json object of the total bias
+    '''
     content=request.args.get('content',type = str)
     content_train = full_processor.full_clean(content)
     if len(content_train) == 0:
