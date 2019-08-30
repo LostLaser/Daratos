@@ -10,7 +10,14 @@ You can install the web extension [here](#) (Link to be added later).
   - User labeling of data
 
 ## Running The Code
-  - Install dependencies
+  1. Install dependencies (to be listed later)
+  2. Run the flask api
+     'cd Pol_Bias_API'
+     'python API_base.py'
+  3. Add the extension to your browser
+      - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
+      - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
+  4. Click the extension button near the top right of your browser window.
 
 
 ## Contributing
@@ -19,7 +26,7 @@ You can install the web extension [here](#) (Link to be added later).
   - Pull requests are welcome. Please open an issue first to discuss what you would like to change.
 
 ### Coding style
-  - Try your best to follow the python coding style specified [here] (https://realpython.com/python-pep8/)
+  - Try your best to follow the python coding style specified [here](https://realpython.com/python-pep8/).
 
 ### Commits
-  - Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits
+  - Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits.
