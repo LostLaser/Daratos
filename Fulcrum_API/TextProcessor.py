@@ -7,12 +7,17 @@ from keras.preprocessing import sequence as sqc
 
 class ProcessRaw:
     max_words = 50
+    stemmer = None
+    tokenizer = None
+    stop_words = None
 
     def __init__(self):
         with open('../Fulcrum_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
+            
         self.stemmer = nltk.stem.PorterStemmer()
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
+        
 
     def full_clean(self, content):
         '''
