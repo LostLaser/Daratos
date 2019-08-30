@@ -1,7 +1,7 @@
 # PoliticalBias
 PoliticalBias is a tool to determine the political leaning of a news article or news segment.
 
-## Use Offerings
+## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
 
 ## Road Map
@@ -9,5 +9,17 @@ You can install the web extension [here](#) (Link to be added later).
   - Publicly accessible API
   - User labeling of data
 
+## Running The Code
+  - Install dependencies
+
+
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+### Creating a pull request
+  - Pull requests are welcome. Please open an issue first to discuss what you would like to change.
+
+### Coding style
+  - Try your best to follow the python coding style specified [here] (https://realpython.com/python-pep8/)
+
+### Commits
+  - Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits
