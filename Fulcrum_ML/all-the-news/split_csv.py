@@ -2,9 +2,17 @@ import string
 import re
 import csv
 
+def convert(file_name: str, source_list: list):
+    '''
+    Divides the csv entries from the sources specified into sentences.
 
-def convert(file_name):
-    source_list=['Vox']
+    Parameters: 
+        file_name (str): File to read from in csv format
+        source_list (list): List of news sources to be parsed
+  
+    Returns: 
+        csv file
+    '''
     docs=[]
     line_count=0
     with open(file_name, encoding='utf8', errors='replace') as csv_file:

@@ -53,4 +53,4 @@ scores = model.evaluate(X_test, y_test)
 
 print("Accuracy: %.2f%%" % (scores[1]*100))
 
-model.save('../../Pol_Bias_API/sentenceModel.h5')
+model.save('sentenceModel.h5')

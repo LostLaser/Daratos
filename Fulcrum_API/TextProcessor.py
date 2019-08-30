@@ -7,14 +7,29 @@ from keras.preprocessing import sequence as sqc
 
 class ProcessRaw:
     max_words = 50
+    stemmer = None
+    tokenizer = None
+    stop_words = None
 
     def __init__(self):
-        with open('../Pol_Bias_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
+        with open('../Fulcrum_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
+            
         self.stemmer = nltk.stem.PorterStemmer()
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
+        
 
     def full_clean(self, content):
+        '''
+        Greatly simplifies the input string into its' root meaning.
+
+        Parameters: 
+            content (str): File to read from in csv format
+    
+        Returns: 
+            str: Fully cleaned string
+        '''
+
         if not content:
             return [[]]
         content=content.lower()
