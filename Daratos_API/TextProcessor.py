@@ -12,7 +12,7 @@ class ProcessRaw:
     stop_words = None
 
     def __init__(self):
-        with open('../Fulcrum_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
+        with open('../Daratos_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
             
         self.stemmer = nltk.stem.PorterStemmer()
