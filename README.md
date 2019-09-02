@@ -1,5 +1,5 @@
-# Daratas
-Daratas is a tool to determine the political leaning of a news article or news segment that you find on the web.
+# Daratos
+Daratos is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
 ## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
