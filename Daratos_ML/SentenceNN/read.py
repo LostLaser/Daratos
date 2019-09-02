@@ -4,7 +4,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.utils import to_categorical
 import pickle
 
-data_list = ['../Cleaning/out_file.csv']
+data_list = ['../Labeling/out_file.csv']
 
 def load_data():
     train_split=0.75

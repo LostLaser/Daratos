@@ -1,5 +1,5 @@
-# PoliticalBias
-PoliticalBias is a tool to determine the political leaning of a news article or news segment that you find on the web.
+# Daratas
+Daratas is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
 ## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
@@ -12,9 +12,8 @@ You can install the web extension [here](#) (Link to be added later).
 ## Running The Code
   1. Install dependencies (to be listed later)
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
-     !!!!!!!!
      ```
-     cd API_DIR
+     cd Daratas_API
      python API_base.py
      ```
   3. Add the extension to your browser
@@ -32,4 +31,4 @@ You can install the web extension [here](#) (Link to be added later).
   - Try your best to follow the python coding style specified [here](https://realpython.com/python-pep8/).
 
 ### Commits
-  - Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits.
+Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits.
