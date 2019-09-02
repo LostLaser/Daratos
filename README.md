@@ -1,5 +1,5 @@
-# Daratas
-Daratas is a tool to determine the political leaning of a news article or news segment that you find on the web.
+# Daratos
+Daratos is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
 ## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
@@ -13,7 +13,7 @@ You can install the web extension [here](#) (Link to be added later).
   1. Install dependencies (to be listed later)
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
      ```
-     cd Daratas_API
+     cd Daratos_API
      python API_base.py
      ```
   3. Add the extension to your browser
