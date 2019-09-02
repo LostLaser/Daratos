@@ -1,5 +1,5 @@
 # PoliticalBias
-PoliticalBias is a tool to determine the political leaning of a news article or news segment.
+PoliticalBias is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
 ## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
@@ -11,9 +11,12 @@ You can install the web extension [here](#) (Link to be added later).
 
 ## Running The Code
   1. Install dependencies (to be listed later)
-  2. Run the flask api
-     'cd Pol_Bias_API'
-     'python API_base.py'
+  2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
+     !!!!!!!!
+     ```
+     cd API_DIR
+     python API_base.py
+     ```
   3. Add the extension to your browser
       - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
       - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
@@ -23,7 +26,7 @@ You can install the web extension [here](#) (Link to be added later).
 ## Contributing
 
 ### Creating a pull request
-  - Pull requests are welcome. Please open an issue first to discuss what you would like to change.
+  - Pull requests are welcome! Please open an issue first to discuss what you would like to change.
 
 ### Coding style
   - Try your best to follow the python coding style specified [here](https://realpython.com/python-pep8/).
