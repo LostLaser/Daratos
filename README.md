@@ -1,5 +1,5 @@
 # Daratos
-![Daratos Logo] (https://raw.githubusercontent.com/LostLaser/Daratos/master/logo/logo_100.png)
+![Daratos Logo](https://raw.githubusercontent.com/LostLaser/Daratos/master/logo/logo_100.png)
 Daratos is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
 ## Consumer Offerings
