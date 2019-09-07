@@ -18,29 +18,44 @@ class ProcessRaw:
         self.stemmer = nltk.stem.PorterStemmer()
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
         
+    def split_sentences(self, content):
+        '''
+        Splits the content into sentences.
+
+        Parameters: 
+            content (str): String of words
+    
+        Returns: 
+            list: A list of sentences created from the input string
+        '''
+        sentence_list = []
+        for sentence in re.split(r'\!|\.|\?',content):
+            sentence= re.sub(r'@[a-zA-Z0-9|_]+', '', sentence)
+            if not sentence == '':
+                sentence_list.append(sentence)
+        
+        return sentence_list
 
     def full_clean(self, content):
         '''
         Greatly simplifies the input string into its' root meaning.
 
         Parameters: 
-            content (str): File to read from in csv format
+            content (str): String of words
     
         Returns: 
             str: Fully cleaned string
         '''
-
         if not content:
             return [[]]
         content=content.lower()
         content=re.sub(r'\d+', '', content)
         content=content.translate(str.maketrans('','', string.punctuation))
         content=content.strip()
-        print(content)
         tokens=nltk.tokenize.word_tokenize(content)
         content=" ".join([self.stemmer.stem(i) for i in tokens if not self.stemmer.stem(i) in self.stop_words])
         encoded_content = self.tokenizer.texts_to_sequences([content])
         encoded_content = sqc.pad_sequences(encoded_content, maxlen=self.max_words)
         content_train = numpy.array(encoded_content)
-        print(content_train)
+
         return content_train

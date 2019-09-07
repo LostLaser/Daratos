@@ -2,9 +2,8 @@ import flask
 from flask import request, jsonify
 from flask import Flask
 from flask import request
-from numpy import loadtxt
 from keras.models import load_model
-from keras.preprocessing.text import Tokenizer
+import numpy
 import keras
 import tensorflow as tf
 import sys
@@ -43,22 +42,30 @@ def bias_calc():
         Json object of the total bias
     '''
     ret_val = {}
-    if model is not None and full_processor is not None:
-        content = request.args.get('content',type = str)
-        content_train = full_processor.full_clean(content)
-        if len(content_train) == 0:
-            return jsonify({'lean': "Nothing selected"}) 
-        with graph.as_default():
-            outputs = model.predict(content_train)
-        for i in range(len(outputs)):
-            print("Left chance=" + str(outputs[i][0]) + "; Neutral chance=" + str(outputs[i][1]) + "; Right chance=" + str(outputs[i][2]))
+    content = request.args.get('content',type = str)
 
-        lean_val = "Left chance=" + str(outputs[0][0]) + " Neutral chance=" + str(outputs[0][1]) + " Right chance=" + str(outputs[0][2])
-        confidence_val = 0.85
-        ret_val = {'lean': lean_val,
-                'confidence': confidence_val}
-    else:
+    if len(content) == 0:
+            return jsonify(ret_val) 
+    if model is None or full_processor is None:
         raise API_Exceptions.InvalidUsage('Missing prediction resources', status_code=404)
+    
+    #Tokenizing the sentences that are inside of input content
+    content_sentences = full_processor.split_sentences(content)
+    tokenized_sentences = []
+    for sentence in content_sentences:
+        tokenized_sentences.append(full_processor.full_clean(sentence))
+    tokenized_sentences = numpy.array(tokenized_sentences)
+
+    #Making predictions on each of the sentences
+    predictions = []
+    with graph.as_default():
+        for sentence in tokenized_sentences:
+            predictions.extend(model.predict(sentence).tolist())
+
+    confidence_val = 0.85
+    ret_val = {'overall_predictions': confidence_val,
+            'sentence_predictions': predictions}
+        
     
     return jsonify(ret_val)
 
