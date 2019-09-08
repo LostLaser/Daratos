@@ -39,33 +39,29 @@ def bias_calc():
     Endpoint to determine the bias of the specified news article
 
     Returns:
-        Json object of the total bias
+        Json object of the bias details
     '''
     ret_val = {}
     content = request.args.get('content',type = str)
 
     if len(content) == 0:
-            return jsonify(ret_val) 
+        return jsonify(ret_val) 
     if model is None or full_processor is None:
         raise API_Exceptions.InvalidUsage('Missing prediction resources', status_code=404)
     
     #Tokenizing the sentences that are inside of input content
     content_sentences = full_processor.split_sentences(content)
-    tokenized_sentences = []
-    for sentence in content_sentences:
-        tokenized_sentences.append(full_processor.full_clean(sentence))
-    tokenized_sentences = numpy.array(tokenized_sentences)
+    tokenized_sentences = list(map(full_processor.full_clean, content_sentences))
 
     #Making predictions on each of the sentences
     predictions = []
     with graph.as_default():
-        for sentence in tokenized_sentences:
-            predictions.extend(model.predict(sentence).tolist())
+        for i in range(len(tokenized_sentences)):
+            predictions.extend(model.predict(tokenized_sentences[i]).tolist())
 
-    confidence_val = 0.85
-    ret_val = {'overall_predictions': confidence_val,
+    total_bias = 0.85
+    ret_val = {'total_bias': total_bias,
             'sentence_predictions': predictions}
-        
     
     return jsonify(ret_val)
 
