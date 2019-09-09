@@ -25,15 +25,15 @@ def bias_calc():
     Returns:
         Json object of the bias details
     '''
-    ret_val = {}
     content = request.args.get('content', type = str)
     if len(content) == 0:
-        return jsonify(ret_val)
+        print("WHAT")
+        raise api_exception.InvalidUsage('No content specified', status_code = 400)
 
     try:
         predictions, _ = bias_prediction.predict_article(content)
     except EnvironmentError:
-        api_exception.InvalidUsage('Missing prediction resources', status_code = 404)
+        raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
 
     total_bias = bias_prediction.determine_article_bias(predictions)
     ret_val = {'total_bias': total_bias,
