@@ -13,6 +13,7 @@ try:
     model = load_model('sentenceModel.h5')
     model._make_predict_function()
 except IOError:
+    print("INFO: Running in skeleton mode. Predictions will not be made.")
     model = None
 graph = tf.get_default_graph()
 

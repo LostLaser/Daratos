@@ -3,7 +3,7 @@ from flask import request, jsonify
 from flask import Flask
 from flask import request
 import sys
-import api_exceptions
+import api_exception
 import bias_prediction
 
 app = flask.Flask(__name__)
@@ -25,15 +25,15 @@ def bias_calc():
     Returns:
         Json object of the bias details
     '''
-    ret_val = {}
     content = request.args.get('content', type = str)
     if len(content) == 0:
-        return jsonify(ret_val)
+        print("WHAT")
+        raise api_exception.InvalidUsage('No content specified', status_code = 400)
 
     try:
         predictions, _ = bias_prediction.predict_article(content)
     except EnvironmentError:
-        api_exceptions.InvalidUsage('Missing prediction resources', status_code = 404)
+        raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
 
     total_bias = bias_prediction.determine_article_bias(predictions)
     ret_val = {'total_bias': total_bias,
@@ -41,7 +41,7 @@ def bias_calc():
     
     return jsonify(ret_val)
 
-@app.errorhandler(api_exceptions.InvalidUsage)
+@app.errorhandler(api_exception.InvalidUsage)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
