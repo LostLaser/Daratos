@@ -26,7 +26,7 @@ class ProcessRaw:
             content (str): String of words
     
         Returns: 
-            list: A list of sentences created from the input string
+            list: Sentences created from the input string
         '''
         sentence_list = []
         for sentence in re.split(r'\!|\.|\?',content):
