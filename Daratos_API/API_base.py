@@ -2,29 +2,12 @@ import flask
 from flask import request, jsonify
 from flask import Flask
 from flask import request
-from numpy import loadtxt
-from keras.models import load_model
-from keras.preprocessing.text import Tokenizer
-import keras
-import tensorflow as tf
 import sys
-import TextProcessor
-import API_Exceptions
+import api_exceptions
+import bias_prediction
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-
-#Loading items needed for prediction
-try:
-    full_processor = TextProcessor.ProcessRaw()
-except OSError:
-    full_processor = None
-try:
-    model = load_model('sentenceModel.h5')
-    model._make_predict_function()
-except IOError:
-    model = None
-graph = tf.get_default_graph()
 
 @app.route('/', methods=['GET'])
 def info():
@@ -32,7 +15,7 @@ def info():
 
 @app.route('/health', methods=['GET'])
 def home():
-    return "<p>We are up!</p>"
+    return "We are up!"
 
 @app.route('/bias', methods=['GET'])
 def bias_calc():
@@ -40,29 +23,25 @@ def bias_calc():
     Endpoint to determine the bias of the specified news article
 
     Returns:
-        Json object of the total bias
+        Json object of the bias details
     '''
     ret_val = {}
-    if model is not None and full_processor is not None:
-        content = request.args.get('content',type = str)
-        content_train = full_processor.full_clean(content)
-        if len(content_train) == 0:
-            return jsonify({'lean': "Nothing selected"}) 
-        with graph.as_default():
-            outputs = model.predict(content_train)
-        for i in range(len(outputs)):
-            print("Left chance=" + str(outputs[i][0]) + "; Neutral chance=" + str(outputs[i][1]) + "; Right chance=" + str(outputs[i][2]))
+    content = request.args.get('content', type = str)
+    if len(content) == 0:
+        return jsonify(ret_val)
 
-        lean_val = "Left chance=" + str(outputs[0][0]) + " Neutral chance=" + str(outputs[0][1]) + " Right chance=" + str(outputs[0][2])
-        confidence_val = 0.85
-        ret_val = {'lean': lean_val,
-                'confidence': confidence_val}
-    else:
-        raise API_Exceptions.InvalidUsage('Missing prediction resources', status_code=404)
+    try:
+        predictions, _ = bias_prediction.predict_article(content)
+    except EnvironmentError:
+        api_exceptions.InvalidUsage('Missing prediction resources', status_code = 404)
+
+    total_bias = bias_prediction.determine_article_bias(predictions)
+    ret_val = {'total_bias': total_bias,
+            'sentence_predictions': predictions}
     
     return jsonify(ret_val)
 
-@app.errorhandler(API_Exceptions.InvalidUsage)
+@app.errorhandler(api_exceptions.InvalidUsage)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
