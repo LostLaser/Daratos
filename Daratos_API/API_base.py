@@ -27,8 +27,7 @@ def bias_calc():
     '''
     content = request.args.get('content', type = str)
     if len(content) == 0:
-        print("WHAT")
-        raise api_exception.InvalidUsage('No content specified', status_code = 400)
+        raise api_exception.InvalidUsage('No content specified', status_code = 204)
 
     try:
         predictions, _ = bias_prediction.predict_article(content)
