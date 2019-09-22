@@ -68,14 +68,9 @@ def load_data():
 def train_test_split(bias_lists, split_percent):
     # Splitting off training data
     list_train = []
-    for bias_list in bias_lists:
-        print(len(bias_list))
-        list_train.extend(bias_list[:int(len(bias_list)*split_percent)])
-
-    # Splitting off testing data
     list_test = []
     for bias_list in bias_lists:
-        print(len(bias_list))
+        list_train.extend(bias_list[:int(len(bias_list)*split_percent)])
         list_test.extend(bias_list[int(len(bias_list)*split_percent):])
 
     return list_train, list_test
