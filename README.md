@@ -14,14 +14,14 @@ You can install the web extension [here](#) (Link to be added later).
   1. Fork and clone the repository.
   2. Make sure python 3.7 is installed on your machine.
   1. Install dependencies.
-    ```
-    pip install -r requirements.txt
-    ```
+     ```
+     pip install -r requirements.txt
+     ```
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
-    ```
-    cd Daratos_API
-    python API_base.py
-    ```
+     ```
+     cd Daratos_API
+     python API_base.py
+     ```
   3. Add the extension to your browser.
       - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
       - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
