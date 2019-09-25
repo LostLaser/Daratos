@@ -1,5 +1,4 @@
-# Daratos
-![Daratos Logo](https://raw.githubusercontent.com/LostLaser/Daratos/master/logo/logo_100.png)
+![Daratos Logo](https://raw.githubusercontent.com/LostLaser/Daratos/master/logo/logo_100x293.png)
 
 Daratos is a tool to determine the political leaning of a news article or news segment that you find on the web.
 
@@ -7,21 +6,27 @@ Daratos is a tool to determine the political leaning of a news article or news s
 You can install the web extension [here](#) (Link to be added later).
 
 ## Road Map
-  - Web extension for Chromium based browsers
+  - Web extension for a wide range of browsers
   - Publicly accessible API
   - User labeling of data
 
 ## Running The Code
-  1. Install dependencies (to be listed later)
+  1. Fork and clone the repository.
+  2. Make sure python 3.7 is installed on your machine.
+  1. Install dependencies.
+    ```
+    pip install -r requirements.txt
+    ```
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
-     ```
-     cd Daratos_API
-     python API_base.py
-     ```
-  3. Add the extension to your browser
+    ```
+    cd Daratos_API
+    python API_base.py
+    ```
+  3. Add the extension to your browser.
       - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
       - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
-  4. Click the extension button near the top right of your browser window.
+  4. Navigate to any web page with text and highlight a portion of said text.
+  5. Click the extension button near the top right of your browser window.
 
 
 ## Contributing
