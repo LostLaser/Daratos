@@ -20,21 +20,20 @@ graph = tf.get_default_graph()
 
 def predict_article(content):
     '''
-        Performs predictions on the sentences inside of input string.
+    Performs predictions on the sentences inside of input string.
 
-        Parameters: 
-            content (str): A portion of text
-    
-        Returns: 
-            list: The prediction values for each of the sentences
-            list: A list of sentences created from the input string
-        '''
+    Parameters: 
+        content (str): A portion of text
+
+    Returns: 
+        list: The prediction values for each of the sentences
+        list: A list of sentences created from the input string
+    '''
     if model is None or full_processor is None:
         raise EnvironmentError
     
     #Tokenizing the sentences that are inside of input content
-    content_sentences = full_processor.split_sentences(content)
-    tokenized_sentences = list(map(full_processor.full_clean, content_sentences))
+    tokenized_sentences, content_sentences = full_processor.full_clean_article(content)
 
     #Making predictions on each of the sentences
     predictions = []
@@ -44,7 +43,16 @@ def predict_article(content):
 
     return predictions, content_sentences
 
-def determine_article_bias(bias_list):
+def consolidate_biases(bias_list):
+    '''
+    Calculates an overall bias score for the specified sentence biases.
+
+    Parameters: 
+        bias_list (list): A list of sentence bias predictions (numbers 0-2)
+
+    Returns: 
+        string: A label representing the determined bias
+    '''
     left_count, right_count = 0, 0
 
     for prediction in bias_list:
@@ -62,3 +70,8 @@ def determine_article_bias(bias_list):
             determination = "right"
 
     return determination
+
+def tokenize_sentences(content):
+    tokenized_sentences, _ = full_processor.full_clean_article(content)
+
+    return tokenized_sentences
