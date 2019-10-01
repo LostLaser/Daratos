@@ -26,18 +26,63 @@ def bias_calc():
         Json object of the bias details
     '''
     content = request.args.get('content', type = str)
+    verbose = request.args.get('verbose', type = str)
+
     if len(content) == 0:
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
+
+    try:
+        predictions, sentences = bias_prediction.predict_article(content)
+    except EnvironmentError:
+        raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
+
+    total_bias = bias_prediction.consolidate_biases(predictions)
+    if verbose and verbose.lower() == 'true':
+        prediction_info = []
+        for i in range( min(len(sentences), len(predictions)) ):
+            prediction_info.append( { 'sentence': sentences[i],
+                                      'prediction': predictions[i]})
+
+        ret_val = {'total_bias': total_bias,
+                   'prediction_info': prediction_info}
+    else:
+        ret_val = {'total_bias': total_bias}
+    
+    return jsonify(ret_val)
+
+@app.route('/tokenize', methods=['GET'])
+def tokenize_sentences():
+    content = request.args.get('content', type = str)
+    
+    sentence_fragments = bias_prediction.tokenize_sentences(content)
+    output_tokens = []
+    
+    for sentence in sentence_fragments:
+        output_tokens.append(sentence[0].tolist())
+
+    ret_val = {'tokenized_sentences': output_tokens}
+
+    return jsonify(ret_val)
+
+@app.route('/article_bias', methods=['GET'])
+def article_bias_calc():
+    # Remove once functionality is filled out
+    raise api_exception.InvalidUsage('Not implemented', status_code = 418)
+
+    url = request.args.get('content', type = str)
+    
+    # TODO
+    # Call web scraper with website url
+    content = fetch_article(url)
 
     try:
         predictions, _ = bias_prediction.predict_article(content)
     except EnvironmentError:
         raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
 
-    total_bias = bias_prediction.determine_article_bias(predictions)
-    ret_val = {'total_bias': total_bias,
-            'sentence_predictions': predictions}
-    
+    total_bias = bias_prediction.consolidate_biases(predictions)
+    ret_val = {'total_bias': total_bias}
+
     return jsonify(ret_val)
 
 @app.errorhandler(api_exception.InvalidUsage)
