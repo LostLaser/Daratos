@@ -36,9 +36,10 @@ class ProcessRaw:
         
         return sentence_list
 
-    def full_clean(self, content):
+    def full_clean_sentence(self, content):
         '''
         Greatly simplifies the input string into its' root meaning.
+        Does not handle punctuation.
 
         Parameters: 
             content (str): String of words
@@ -48,14 +49,31 @@ class ProcessRaw:
         '''
         if not content:
             return [[]]
-        content=content.lower()
-        content=re.sub(r'\d+', '', content)
-        content=content.translate(str.maketrans('','', string.punctuation))
-        content=content.strip()
-        tokens=nltk.tokenize.word_tokenize(content)
-        content=" ".join([self.stemmer.stem(i) for i in tokens if not self.stemmer.stem(i) in self.stop_words])
+        content = content.lower()
+        content = re.sub(r'\d+', '', content)
+        content = content.translate(str.maketrans('','', string.punctuation))
+        content = content.strip()
+        tokens = nltk.tokenize.word_tokenize(content)
+        content = " ".join([self.stemmer.stem(i) for i in tokens if not self.stemmer.stem(i) in self.stop_words])
         encoded_content = self.tokenizer.texts_to_sequences([content])
         encoded_content = sqc.pad_sequences(encoded_content, maxlen=self.max_words)
         content_train = numpy.array(encoded_content)
 
         return content_train
+
+    def full_clean_article(self, content):
+        '''
+        Greatly simplifies the input string into its' root meaning.
+        Able to handle punctuation in the input string.
+
+        Parameters: 
+            content (str): String of words
+    
+        Returns: 
+            list[list]: tokenized sentences
+            list[str]: Sentences split on sentence boundaries
+        '''
+        content_sentences = self.split_sentences(content)
+        tokenized_sentences = list(map(self.full_clean_sentence, content_sentences))
+
+        return tokenized_sentences, content_sentences
