@@ -50,26 +50,12 @@ def bias_calc():
     
     return jsonify(ret_val)
 
-@app.route('/tokenize', methods=['GET'])
-def tokenize_sentences():
-    content = request.args.get('content', type = str)
-    
-    sentence_fragments = bias_prediction.tokenize_sentences(content)
-    output_tokens = []
-    
-    for sentence in sentence_fragments:
-        output_tokens.append(sentence[0].tolist())
-
-    ret_val = {'tokenized_sentences': output_tokens}
-
-    return jsonify(ret_val)
-
-@app.route('/article_bias', methods=['GET'])
-def article_bias_calc():
+@app.route('/website_bias', methods=['GET'])
+def website_bias_calc():
     # Remove once functionality is filled out
     raise api_exception.InvalidUsage('Not implemented', status_code = 418)
 
-    url = request.args.get('content', type = str)
+    url = request.args.get('url', type = str)
     
     # TODO
     # Call web scraper with website url
@@ -82,6 +68,20 @@ def article_bias_calc():
 
     total_bias = bias_prediction.consolidate_biases(predictions)
     ret_val = {'total_bias': total_bias}
+
+    return jsonify(ret_val)
+
+@app.route('/tokenize', methods=['GET'])
+def tokenize_sentences():
+    content = request.args.get('content', type = str)
+    
+    sentence_fragments = bias_prediction.tokenize_sentences(content)
+    output_tokens = []
+
+    for sentence in sentence_fragments:
+        output_tokens.append(sentence[0].tolist())
+
+    ret_val = {'tokenized_sentences': output_tokens}
 
     return jsonify(ret_val)
 
