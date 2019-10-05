@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web','Roboto', sans-serif;
     width: 150px;
     height: 160px;
 }
@@ -9,9 +9,16 @@ body {
     text-align: center;
 }
 
-#main {
+#results {
     height: 100%;  
     text-align: center; 
+}
+
+#bias_button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #output_box {
