@@ -66,7 +66,19 @@ def load_data():
     return (content_train, bias_train),(content_test,bias_test), tokenizer.num_words 
 
 def train_test_split(bias_lists, split_percent):
-    # Splitting off training data
+    '''
+    Splits the content into sentences.
+
+    Parameters: 
+        content (str): String of words
+        split_percent(decimal): percentage of the data to leave in the training category
+
+    Returns: 
+        list: Sentences created from the input string
+    '''
+    if split_percent > 1:
+        return [], []
+    
     list_train = []
     list_test = []
     for bias_list in bias_lists:

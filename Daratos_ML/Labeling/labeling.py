@@ -9,6 +9,7 @@ def main():
     Parameters: 
         file_name (str): Command line argument for file to read from in csv format
     '''
+    print("q=quit s=left d=neutral f=right i=invalid")
     if os.path.exists('start_points/'+str(sys.argv[1]).split('.')[0]+'.txt'):
         start_point_file = open('start_points/'+str(sys.argv[1]).split('.')[0]+'.txt','r')
         stop_point = str(start_point_file.readline())
@@ -31,6 +32,7 @@ def main():
     if start_point < 1:
         print ('Start point too low...')
         return
+
     line_count = -1
     for row in read_cursor:
         line_count += 1
