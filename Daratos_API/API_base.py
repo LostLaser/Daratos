@@ -1,13 +1,15 @@
+import sys
 import flask
 from flask import request, jsonify
 from flask import Flask
 from flask import request
-import sys
 import api_exception
 import bias_prediction
+# import news_scraper
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+# scraper = news_scraper.WebDriver(True)
 
 @app.route('/', methods=['GET'])
 def info():
@@ -59,7 +61,7 @@ def website_bias_calc():
     
     # TODO
     # Call web scraper with website url
-    content = fetch_article(url)
+    content = "" #scraper.fetch_article(url)
 
     try:
         predictions, _ = bias_prediction.predict_article(content)
