@@ -5,7 +5,10 @@
     "version": "1.0",
 
     "description": "Checks news articles for political bias.",
-  
+
+    "permissions": [
+        "activeTab"
+    ],
     "icons": {
       "48": "icons/logo_48.png",
       "96": "icons/logo_96.png"
