@@ -1,13 +1,15 @@
+import sys
 import flask
 from flask import request, jsonify
 from flask import Flask
 from flask import request
-import sys
 import api_exception
 import bias_prediction
+# import news_scraper
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+# scraper = news_scraper.WebDriver(True)
 
 @app.route('/', methods=['GET'])
 def info():
@@ -50,25 +52,11 @@ def bias_calc():
     
     return jsonify(ret_val)
 
-@app.route('/website_bias', methods=['GET'])
-def website_bias_calc():
-    # Remove once functionality is filled out
-    raise api_exception.InvalidUsage('Not implemented', status_code = 418)
+@app.route('/bias/article/xpath')
+def retrieve_xpath():
+    domain = request.args.get('domain', type = str)
 
-    url = request.args.get('url', type = str)
-    
-    # TODO
-    # Call web scraper with website url
-    content = fetch_article(url)
-
-    try:
-        predictions, _ = bias_prediction.predict_article(content)
-    except EnvironmentError:
-        raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
-
-    total_bias = bias_prediction.consolidate_biases(predictions)
-    ret_val = {'total_bias': total_bias}
-
+    ret_val = {'domain_xpath': '//div/p'}
     return jsonify(ret_val)
 
 @app.route('/tokenize', methods=['GET'])
