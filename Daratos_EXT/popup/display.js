@@ -4,37 +4,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function fetch_bias(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        let pathArray = tabs[0].url.split('/')
-        let host = pathArray[2]
+        let pathArray = tabs[0].url.split('/');
+        let host = pathArray[2];
+        let domain_xpath = "";
         if (host == 'www.foxnews.com') {
-            domain_xpath = '//div/p'
+            domain_xpath = '//div/p';
+        }
+        if (domain_xpath.length <= 0) {
+            setPopupMessage("News site not yet supported.");
         }
         chrome.tabs.sendMessage(tabs[0].id, {xpath: domain_xpath}, function(response) {
-            let content = response.text_content
+            let web_content = response.text_content;
 
             setLoading();
             
-            if (content.length > 0) {
-                call_api("http://127.0.0.1:5000/bias?content="+String(content)).then(function(response){    
+            if (web_content.length > 0) {
+                call_api("http://127.0.0.1:5000/bias", {
+                    method: 'post',
+                    body: JSON.stringify({content: String(web_content)}),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function(response){    
                     if (response.length > 0) {
-                        setPopupMessage(response)
+                        setPopupMessage(response);
                     } 
                 });
             }
             else {
-                setPopupMessage("No content found!")
+                setPopupMessage("No content found!");
             }
-
         });
     });
-    
 }
 
-async function call_api(url) {
+async function call_api(url, options) {
     let return_val = "";
-
-    let response = await fetch(url)
+    
+    let response = await fetch(url, options)
         .catch(function(response) {
+            console.log(response)
             return response;
         });
 
