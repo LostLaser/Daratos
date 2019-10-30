@@ -6,19 +6,27 @@ function fetch_bias(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         let pathArray = tabs[0].url.split('/');
         let host = pathArray[2];
-        let domain_xpath = "";
-        if (host == 'www.foxnews.com') {
-            domain_xpath = '//div/p';
+        let host_xpath = "//div/p";
+        // call_api("http://127.0.0.1:5000/article/xpath", {
+        //         method: 'post',
+        //         body: JSON.stringify({host: String(host)}),
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     }).then(function(response){    
+        //         host_xpath = response.host_xpath
+        //     });
+        if (! host_xpath) {
+            setPopupMessage("This website is not supported yet.");
+            return
         }
-        if (domain_xpath.length <= 0) {
-            setPopupMessage("News site not yet supported.");
-        }
-        chrome.tabs.sendMessage(tabs[0].id, {xpath: domain_xpath}, function(response) {
+        
+        chrome.tabs.sendMessage(tabs[0].id, {xpath: host_xpath}, function(response) {
             let web_content = response.text_content;
 
             setLoading();
             
-            if (web_content.length > 0) {
+            if (web_content) {
                 call_api("http://127.0.0.1:5000/bias", {
                     method: 'post',
                     body: JSON.stringify({content: String(web_content)}),
@@ -26,9 +34,12 @@ function fetch_bias(){
                         'Content-Type': 'application/json'
                     }
                 }).then(function(response){    
-                    if (response.length > 0) {
-                        setPopupMessage(response);
-                    } 
+                    if (response.total_bias) {
+                        setPopupMessage(response.total_bias);
+                    }
+                    else {
+                        setPopupMessage("Oh no! Something went wrong.")
+                    }
                 });
             }
             else {
@@ -38,8 +49,9 @@ function fetch_bias(){
     });
 }
 
+// safely call api with specified options
 async function call_api(url, options) {
-    let return_val = "";
+    var return_val;
     
     let response = await fetch(url, options)
         .catch(function(response) {
@@ -47,7 +59,7 @@ async function call_api(url, options) {
             return response;
         });
 
-    if (response.status == undefined) {
+    if (! response.status) {
         setPopupMessage("Oh no! Unable to connect to bias predictor.");
     }
     else if (response.status !== 200) {
@@ -55,10 +67,9 @@ async function call_api(url, options) {
         console.log('There was a problem. Status Code: ' + response.status);
     }
     else {
-        let data = await response.json()
-        return_val = data.total_bias;
+        return_val = await response.json()
     }
-
+    console.log(return_val)
     return return_val;
 }
 

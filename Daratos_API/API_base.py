@@ -8,16 +8,16 @@ import bias_prediction
 # import news_scraper
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config['DEBUG'] = True
 # scraper = news_scraper.WebDriver(True)
 
 @app.route('/', methods=['GET'])
 def info():
-    return "Welcome to the political bias API! Go to /bias if you are wanting to get a rating!"
+    return 'Welcome to the political bias API! Go to /bias if you are wanting to get a rating!'
 
 @app.route('/health', methods=['GET'])
 def home():
-    return "We are up!"
+    return 'We are up!'
 
 @app.route('/bias', methods=['POST'])
 def bias_calc():
@@ -28,7 +28,7 @@ def bias_calc():
         Json object of the bias details
     '''
     if not request.json:
-        raise api_exception.InvalidUsage('No content specified', status_code = 204)
+        raise api_exception.InvalidUsage('Missing json request body', status_code = 400)
 
     json_data = request.get_json()
     content = str(json_data.get('content'))
@@ -56,11 +56,22 @@ def bias_calc():
     
     return jsonify(ret_val)
 
-@app.route('/bias/article/xpath')
+@app.route('/article/xpath', methods=['POST'])
 def retrieve_xpath():
-    domain = request.form.get('domain', type = str)
+    '''
+    Endpoint to determine the web scraping details of a news website
 
-    ret_val = {'domain_xpath': '//div/p'}
+    Returns:
+        Json object containing the xpath
+    '''
+    json_data = request.get_json()
+    host = str(json_data.get('host'))
+    x_path = ''
+    print(host)
+    if host == 'www.foxnews.com':
+        x_path = '//div/p'
+
+    ret_val = {'host_xpath': x_path}
     return jsonify(ret_val)
 
 @app.route('/tokenize', methods=['GET'])
