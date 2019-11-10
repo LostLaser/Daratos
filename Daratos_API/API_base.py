@@ -8,18 +8,18 @@ import bias_prediction
 # import news_scraper
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config['DEBUG'] = True
 # scraper = news_scraper.WebDriver(True)
 
 @app.route('/', methods=['GET'])
 def info():
-    return "Welcome to the political bias API! Go to /bias if you are wanting to get a rating!"
+    return 'Welcome to the political bias API! Go to /bias if you are wanting to get a rating!'
 
 @app.route('/health', methods=['GET'])
 def home():
-    return "We are up!"
+    return 'We are up!'
 
-@app.route('/bias', methods=['GET'])
+@app.route('/bias', methods=['POST'])
 def bias_calc():
     '''
     Endpoint to determine the bias of the specified news article
@@ -27,10 +27,14 @@ def bias_calc():
     Returns:
         Json object of the bias details
     '''
-    content = request.args.get('content', type = str)
-    verbose = request.args.get('verbose', type = str)
+    if not request.json:
+        raise api_exception.InvalidUsage('Missing json request body', status_code = 400)
 
-    if len(content) == 0:
+    json_data = request.get_json()
+    content = str(json_data.get('content'))
+    verbose = str(json_data.get('verbose'))
+    
+    if not content or len(content) == 0:
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
 
     try:
@@ -52,16 +56,27 @@ def bias_calc():
     
     return jsonify(ret_val)
 
-@app.route('/bias/article/xpath')
+@app.route('/article/xpath', methods=['POST'])
 def retrieve_xpath():
-    domain = request.args.get('domain', type = str)
+    '''
+    Endpoint to determine the web scraping details of a news website
 
-    ret_val = {'domain_xpath': '//div/p'}
+    Returns:
+        Json object containing the xpath
+    '''
+    json_data = request.get_json()
+    host = str(json_data.get('host'))
+    x_path = ''
+    print(host)
+    if host == 'www.foxnews.com':
+        x_path = '//div/p'
+
+    ret_val = {'host_xpath': x_path}
     return jsonify(ret_val)
 
 @app.route('/tokenize', methods=['GET'])
 def tokenize_sentences():
-    content = request.args.get('content', type = str)
+    content = request.form.get('content', type = str)
     
     sentence_fragments = bias_prediction.tokenize_sentences(content)
     output_tokens = []
