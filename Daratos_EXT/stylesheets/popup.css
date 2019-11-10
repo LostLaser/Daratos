@@ -1,49 +1,17 @@
 body {
     font-family: 'Titillium Web','Roboto', sans-serif;
-    width: 150px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
 }
 
-#top_title {
-    margin: 0 auto;
-    text-align: center;
+.container {
+    height: 100%;
 }
 
-#results {
-    height: 100%;  
-    text-align: center; 
+.valign-wrapper {
+    height: 80%;
 }
 
 #bias_button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#output_box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#loader {
-    border: 4px solid #f3f3f3; /* Light grey */
-    border-top: 4px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 2s linear infinite;
-
-    position: absolute;
-    top: 50%;
-    left: 40%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-  
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    background-color: #700379;
 }
