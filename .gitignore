@@ -107,5 +107,6 @@ venv.bak/
 *.h5
 *.pickle
 *.csv
+*config.json
 scalars/
-*.txt
+Labeling/
