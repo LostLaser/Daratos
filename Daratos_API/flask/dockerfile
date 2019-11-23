@@ -8,9 +8,7 @@ WORKDIR /app
 ADD . /app
 
 # Install python modules
-RUN pip --no-cache-dir install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
-EXPOSE 5000
-
-ENTRYPOINT ["python3"]
-CMD ["API_base.py"]
+# Start uWSGI
+CMD ["uwsgi", "app.ini"]
