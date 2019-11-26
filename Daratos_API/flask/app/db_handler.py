@@ -4,11 +4,12 @@ from firebase_admin import firestore
 
 try:
     # Set up connection to firestore
-    cred = credentials.Certificate('api_config.json')
+    cred = credentials.Certificate('./app/api_config.json')
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 except:
     db = None
+    print("WARN: Using local website scrapping information\n")
     local_db = {
         'www.cnn.com': '//*[@id="body-text"]/div[1]',
         'www.foxnews.com': '//*[@id="wrapper"]/div[2]/div[1]/main/article/div/div/div[1]/p',

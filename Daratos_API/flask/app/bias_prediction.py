@@ -1,8 +1,10 @@
 from keras.models import load_model
-import text_processor
 import numpy
 import keras
 import tensorflow as tf
+import os
+
+from app import text_processor
 
 #Loading items needed for prediction
 try:
@@ -10,7 +12,8 @@ try:
 except OSError:
     full_processor = None
 try:
-    model = load_model('sentenceModel.h5')
+    print(os.getcwd())
+    model = load_model('./app/sentenceModel.h5')
     model._make_predict_function()
 except IOError:
     print("INFO: Running in skeleton mode. Predictions will not be made.")

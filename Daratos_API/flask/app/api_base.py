@@ -2,9 +2,9 @@ import sys
 from app import app
 from flask import request, jsonify, Flask
 
-#import db_handler
-#import api_exception
-#import bias_prediction
+from app import db_handler
+from app import api_exception
+#from app import bias_prediction
 
 @app.route('/')
 def info():
@@ -67,8 +67,10 @@ def retrieve_xpath():
         Json object containing the xpath
     '''
     json_data = request.get_json()
-    domain = str(json_data.get('domain'))
+    if not json_data:
+        raise api_exception.InvalidUsage('No domain specified', status_code = 204)
     
+    domain = str(json_data.get('domain'))
     x_path = db_handler.get_xpath(domain)
 
     ret_val = {'domain_xpath': x_path}
@@ -97,8 +99,8 @@ def tokenize_sentences():
 
     return jsonify(ret_val)
 
-#@app.errorhandler(api_exception.InvalidUsage)
-#def handle_invalid_usage(error):
-#    response = jsonify(error.to_dict())
-#    response.status_code = error.status_code
-#    return response
+@app.errorhandler(api_exception.InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
