@@ -1,9 +1,12 @@
-import nltk
 import pickle
 import string
 import re
 import numpy
 from keras.preprocessing import sequence as sqc
+import nltk
+
+nltk.download("stopwords")
+nltk.download("punkt")
 
 class ProcessRaw:
     max_words = 50

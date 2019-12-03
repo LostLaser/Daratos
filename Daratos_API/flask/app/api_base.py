@@ -4,7 +4,9 @@ from flask import request, jsonify, Flask
 
 from app import db_handler
 from app import api_exception
-#from app import bias_prediction
+from app import bias_prediction
+
+prediction_instance = bias_prediction.Predictor()
 
 @app.route('/')
 def info():
@@ -37,11 +39,12 @@ def bias_calc():
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
     
     try:
-        predictions, sentences = bias_prediction.predict_article(content)
+        predictions, sentences = prediction_instance.predict_article(content)
     except EnvironmentError:
         raise api_exception.InvalidUsage('Missing prediction resources', status_code = 503)
-
-    total_bias = bias_prediction.consolidate_biases(predictions)
+    
+    total_bias = prediction_instance.consolidate_biases(predictions)
+    
     if verbose and verbose.lower() == 'true':
         prediction_info = []
         for i in range( min(len(sentences), len(predictions)) ):
@@ -67,11 +70,11 @@ def retrieve_xpath():
         Json object containing the xpath
     '''
     json_data = request.get_json()
-    if not json_data:
-        raise api_exception.InvalidUsage('No domain specified', status_code = 204)
-    
-    domain = str(json_data.get('domain'))
-    x_path = db_handler.get_xpath(domain)
+    x_path = ""
+
+    if json_data:
+        domain = str(json_data.get('domain'))
+        x_path = db_handler.get_xpath(domain)
 
     ret_val = {'domain_xpath': x_path}
     return jsonify(ret_val)
@@ -89,7 +92,7 @@ def tokenize_sentences():
     '''
     content = request.form.get('content', type = str)
     
-    sentence_fragments = bias_prediction.tokenize_sentences(content)
+    sentence_fragments = prediction_instance.tokenize_sentences(content)
     output_tokens = []
 
     for sentence in sentence_fragments:
