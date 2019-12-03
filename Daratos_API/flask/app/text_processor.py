@@ -1,9 +1,12 @@
-import nltk
 import pickle
 import string
 import re
 import numpy
 from keras.preprocessing import sequence as sqc
+import nltk
+
+nltk.download("stopwords")
+nltk.download("punkt")
 
 class ProcessRaw:
     max_words = 50
@@ -12,7 +15,7 @@ class ProcessRaw:
     stop_words = None
 
     def __init__(self):
-        with open('../Daratos_ML/SentenceNN/tokenizer.pickle', 'rb') as handle:
+        with open('./app/tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
             
         self.stemmer = nltk.stem.PorterStemmer()

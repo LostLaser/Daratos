@@ -1,0 +1,17 @@
+# Use Python 3.7.2 as base image
+FROM python:3.7.2-stretch
+
+# Set working directory
+WORKDIR /app
+
+# Add code to docker image
+ADD . /app
+
+# Install python modules
+RUN pip3 install -r requirements.txt
+
+#RUN python -m nltk.downloader stopwords
+#RUN python -m nltk.downloader punkt
+
+# Start uWSGI
+CMD ["uwsgi", "app.ini"]
