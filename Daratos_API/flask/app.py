@@ -1,12 +1,13 @@
 import sys
-from app import app
 from flask import request, jsonify, Flask
 
-from app import db_handler
-from app import api_exception
-from app import bias_prediction
+import db_handler
+import api_exception
+import bias_prediction
+import config
 
 prediction_instance = bias_prediction.Predictor()
+app = Flask(__name__)
 
 @app.route('/')
 def info():
@@ -107,3 +108,6 @@ def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)

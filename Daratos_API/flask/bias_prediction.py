@@ -3,10 +3,7 @@ import keras
 import tensorflow as tf
 import os
 from keras.models import load_model
-
-from app import text_processor
-
-
+import text_processor
 
 class Predictor():
     def __init__(self):
@@ -15,7 +12,7 @@ class Predictor():
         except OSError:
             self.full_processor = None
         try:
-            self.model = load_model('./app/sentenceModel.h5')
+            self.model = load_model('./sentenceModel.h5')
             self.model._make_predict_function()
         except IOError:
             print("INFO: Running in skeleton mode. Predictions will not be made.")

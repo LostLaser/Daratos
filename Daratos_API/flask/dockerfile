@@ -1,5 +1,5 @@
 # Use Python 3.7.2 as base image
-FROM python:3.7.2-stretch
+FROM python:3.7.2
 
 # Set working directory
 WORKDIR /app
@@ -10,8 +10,7 @@ ADD . /app
 # Install python modules
 RUN pip3 install -r requirements.txt
 
-#RUN python -m nltk.downloader stopwords
-#RUN python -m nltk.downloader punkt
+ENV PORT 8080
 
 # Start uWSGI
-CMD ["uwsgi", "app.ini"]
+CMD ["gunicorn", "app:app", "--config=config.py"]
