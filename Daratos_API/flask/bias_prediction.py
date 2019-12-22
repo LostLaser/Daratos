@@ -10,6 +10,7 @@ class Predictor():
         try:
             self.full_processor = text_processor.ProcessRaw()
         except OSError:
+            print("INFO: Missing tokenizer file. Prediction will not be made.")
             self.full_processor = None
         try:
             self.model = load_model('./sentenceModel.h5')
