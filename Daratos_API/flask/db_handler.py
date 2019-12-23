@@ -4,7 +4,7 @@ from firebase_admin import firestore
 
 try:
     # Set up connection to firestore
-    cred = credentials.Certificate('./app/api_config.json')
+    cred = credentials.Certificate('./api_config.json')
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 except:

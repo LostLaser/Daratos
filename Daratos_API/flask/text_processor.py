@@ -15,7 +15,7 @@ class ProcessRaw:
     stop_words = None
 
     def __init__(self):
-        with open('./app/tokenizer.pickle', 'rb') as handle:
+        with open('./tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
             
         self.stemmer = nltk.stem.PorterStemmer()
