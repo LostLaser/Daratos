@@ -1,10 +1,11 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import config
 
 try:
     # Set up connection to firestore
-    cred = credentials.Certificate('./api_config.json')
+    cred = credentials.Certificate(config.DB_CONFIG_PATH)
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 except:

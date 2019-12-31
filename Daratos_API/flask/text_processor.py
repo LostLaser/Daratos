@@ -4,6 +4,7 @@ import re
 import numpy
 from keras.preprocessing import sequence as sqc
 import nltk
+import config
 
 nltk.download("stopwords")
 nltk.download("punkt")
@@ -15,7 +16,7 @@ class ProcessRaw:
     stop_words = None
 
     def __init__(self):
-        with open('./tokenizer.pickle', 'rb') as handle:
+        with open(config.TOKENIZER_PATH, 'rb') as handle:
             self.tokenizer = pickle.load(handle)
             
         self.stemmer = nltk.stem.PorterStemmer()

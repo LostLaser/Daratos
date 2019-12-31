@@ -4,6 +4,7 @@ import tensorflow as tf
 import os
 from keras.models import load_model
 import text_processor
+import config
 
 class Predictor():
     def __init__(self):
@@ -13,7 +14,7 @@ class Predictor():
             print("INFO: Missing tokenizer file. Prediction will not be made.")
             self.full_processor = None
         try:
-            self.model = load_model('./sentenceModel.h5')
+            self.model = load_model(config.MODEL_PATH)
             self.model._make_predict_function()
         except IOError:
             print("INFO: Running in skeleton mode. Predictions will not be made.")
