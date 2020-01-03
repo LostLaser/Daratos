@@ -19,10 +19,13 @@
         "js": ["newsBias.js"]
       }
     ],
+    "background": {
+      "scripts": ["config.js"]
+    },
     "browser_action": {
       "default_icon": "icons/logo_48.png",
       "default_popup": "popup/popup.html",
-      "default_title": "Retrieve A Bias"
+      "default_title": "Daratos"
     }
     
   }
