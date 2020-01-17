@@ -3,9 +3,9 @@ import multiprocessing
 
 PORT = int(env.get("PORT", 8080))
 DEBUG_MODE = int(env.get("DEBUG_MODE", 1))
-MODEL_PATH = str(env.get("MODEL_PATH", "./sentenceModel.h5"))
-TOKENIZER_PATH = str(env.get("TOKENIZER_PATH", "./tokenizer.pickle"))
-DB_CONFIG_PATH = str(env.get("DB_CONFIG_PATH", "./api_config.json"))
+DB_CONFIG_PATH = str(env.get("DB_CONFIG_PATH", "./db_config.json"))
+PREDICTION_API_URL = str(env.get("PREDICTION_URL","https://vote-public2-fernandotoress.cloud.okteto.net"))
+PREDICTION_API_KEY = str(env.get("PREDICTION_API_KEY"))
 
 # Gunicorn config
 bind = ":" + str(PORT)

@@ -1,9 +1,9 @@
 import sys
 from flask import request, jsonify, Flask
 
-import db_handler
-import api_exception
+from handlers import db_handler, prediction_handler, api_exception
 import config
+import requests as rqst
 
 app = Flask(__name__)
 
@@ -21,8 +21,7 @@ def bias_calc():
     Endpoint to determine the bias of the specified news article
 
     Parameters: 
-        content (str): String containing English sentences
-        verbose (bool): truth value make call return more detailed information
+        content (str): String containing sentences
 
     Returns:
         Json object of the bias details
@@ -36,7 +35,7 @@ def bias_calc():
     if not content or len(content) == 0:
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
     
-    ret_val = ""
+    ret_val = prediction_handler.predict_bias(content)
     
     return jsonify(ret_val)
 
