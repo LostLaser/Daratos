@@ -12,7 +12,7 @@ function fetch_bias(){
             body: JSON.stringify({domain: String(domain)}),
             headers: {'Content-Type': 'application/json'}
         }
-        call_api("http://127.0.0.1:5000/article/xpath", call_options).then(function(response){    
+        call_api("http://127.0.0.1:8080/article/xpath", call_options).then(function(response){    
             if (! response) {
                 return
             }
@@ -33,7 +33,7 @@ function fetch_bias(){
                         body: JSON.stringify({content: String(web_content)}),
                         headers: {'Content-Type': 'application/json'}
                     }   
-                    call_api("http://127.0.0.1:5000/bias", bias_call_options).then(function(response){    
+                    call_api("http://127.0.0.1:8080/bias", bias_call_options).then(function(response){    
                         if (response.total_bias) {
                             setPopupMessage(response.total_bias);
                         }
