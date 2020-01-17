@@ -1,0 +1,17 @@
+body {
+    font-family: 'Titillium Web','Roboto', sans-serif;
+    width: 200px;
+    height: 200px;
+}
+
+.container {
+    height: 100%;
+}
+
+.valign-wrapper {
+    height: 80%;
+}
+
+#bias_button {
+    background-color: #700379;
+}

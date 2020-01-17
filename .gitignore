@@ -107,5 +107,6 @@ venv.bak/
 *.h5
 *.pickle
 *.csv
-*/logs/scalars/*
-*.txt
+*config.json
+scalars/
+Labeling/

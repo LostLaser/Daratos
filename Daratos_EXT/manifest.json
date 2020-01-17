@@ -1,0 +1,28 @@
+{
+
+    "manifest_version": 2,
+    "name": "Daratos",
+    "version": "1.0",
+
+    "description": "Checks news articles for political bias.",
+
+    "permissions": [
+        "activeTab"
+    ],
+    "icons": {
+      "48": "icons/logo_48.png",
+      "96": "icons/logo_96.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["newsBias.js"]
+      }
+    ],
+    "browser_action": {
+      "default_icon": "icons/logo_48.png",
+      "default_popup": "popup/popup.html",
+      "default_title": "Retrieve A Bias"
+    }
+    
+  }
