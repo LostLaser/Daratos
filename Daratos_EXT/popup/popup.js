@@ -1,5 +1,8 @@
+var config = chrome.extension.getBackgroundPage().config;
+
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("bias_button").onclick = fetch_bias;   
+    document.getElementById("bias_button").onclick = fetch_bias; 
+    console.log("API url is", config.daratos_api_url)  
 });
 
 function fetch_bias(){
@@ -12,7 +15,7 @@ function fetch_bias(){
             body: JSON.stringify({domain: String(domain)}),
             headers: {'Content-Type': 'application/json'}
         }
-        call_api("http://127.0.0.1:8080/article/xpath", call_options).then(function(response){    
+        call_api(config.daratos_api_url + "/article/xpath", call_options).then(function(response){    
             if (! response) {
                 return
             }
@@ -33,7 +36,7 @@ function fetch_bias(){
                         body: JSON.stringify({content: String(web_content)}),
                         headers: {'Content-Type': 'application/json'}
                     }   
-                    call_api("http://127.0.0.1:8080/bias", bias_call_options).then(function(response){    
+                    call_api(config.daratos_api_url + "/bias", bias_call_options).then(function(response){    
                         if (response.total_bias) {
                             setPopupMessage(response.total_bias);
                         }
