@@ -1,9 +1,10 @@
 import requests as rqst
 import config
+from handlers import api_exception
 
 FAR_LEFT = 7
-LEFT = 3
-RIGHT = -3
+LEFT = 1
+RIGHT = -1
 FAR_RIGHT = -7
 
 def predict_bias(content):
@@ -16,7 +17,7 @@ def predict_bias(content):
     ret_val = rqst.post(config.PREDICTION_API_URL+"/bert", data)
     
     if ret_val.text == "Error":
-        return None
+        raise api_exception.InvalidUsage('Error connecting to bias predictor', status_code = 400)
     
     try:
         bias_prediction = float(ret_val.text)

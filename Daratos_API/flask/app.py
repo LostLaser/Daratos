@@ -35,7 +35,12 @@ def bias_calc():
     if not content or len(content) == 0:
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
     
-    ret_val = prediction_handler.predict_bias(content)
+    # Retrieve prediction value
+    total_bias = prediction_handler.predict_bias(content)
+    if not total_bias:
+        raise api_exception.InvalidUsage('Something went wrong', status_code = 400)
+        
+    ret_val = {'total_bias': total_bias}
     
     return jsonify(ret_val)
 
