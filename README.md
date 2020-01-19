@@ -1,6 +1,6 @@
 ![Daratos Logo](https://raw.githubusercontent.com/LostLaser/Daratos/master/logo/logo_100x293.png)
 
-Daratos is a tool to determine the political leaning of a news article or news segment that you find on the web.
+Daratos is a tool to determine the political leaning of a news article that you find on the web. Bias predictions are pulled from [The Bipartisan Press'](https://www.thebipartisanpress.com/) AI.
 
 ## Consumer Offerings
 You can install the web extension [here](#) (Link to be added later).
@@ -15,17 +15,18 @@ You can install the web extension [here](#) (Link to be added later).
   2. Make sure python 3.7 is installed on your machine.
   1. Install dependencies.
      ```
+     cd Daratos_API/flask
      pip install -r requirements.txt
      ```
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
      ```
-     cd Daratos_API
-     python API_base.py
+     export PREDICTION_API_KEY="MISSING"
+     python app.py runserver
      ```
   3. Add the extension to your browser.
       - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
       - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
-  4. Navigate to any web page with text and highlight a portion of said text.
+  4. Navigate to any [supported web page](https://github.com/LostLaser/Daratos/blob/master/supported_sites.md).
   5. Click the extension button near the top right of your browser window.
 
 
