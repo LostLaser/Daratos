@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: daratos-api
   labels:
-    name: flask-app
+    name: daratos-api
+    version: 1.0.0
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: flask-app
+      name: daratos-api
   template:
     metadata:
-      name: flask-app
+      name: daratos-api
       labels:
-        name: flask-app
+        name: daratos-api
     spec:
       containers:
-        - name: flask-app
-          image: gcr.io/daratos/flask-app:v1
+        - name: daratos-api
+          image: gcr.io/daratos/daratos-api:v1.0.0
           ports:
             - containerPort: 8080
           resources:
