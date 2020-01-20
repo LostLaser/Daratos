@@ -1,5 +1,5 @@
 # Use Python 3.7.2 as base image
-FROM python:3.7.2
+FROM python:3.7-slim-buster
 
 # Set working directory
 WORKDIR /app
@@ -8,6 +8,7 @@ WORKDIR /app
 ADD . /app
 
 # Install python modules
+RUN cat requirements.txt
 RUN pip3 install -r requirements.txt
 
 ENV PORT 8080
