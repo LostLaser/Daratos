@@ -2,10 +2,12 @@ import requests as rqst
 import config
 from handlers import api_exception
 
-FAR_LEFT = 7
-LEFT = 1
-RIGHT = -1
-FAR_RIGHT = -7
+MIN_LEFT = -45
+FAR_LEFT = -15
+LEFT = -5
+RIGHT = 5
+FAR_RIGHT = 15
+MAX_RIGHT = 45
 
 def predict_bias(content):
     data = {
@@ -28,15 +30,17 @@ def predict_bias(content):
     # Putting bias return value into a category
     prediction_category = ""
     
-    if bias_prediction < FAR_RIGHT :
+    if FAR_RIGHT <= bias_prediction <= MAX_RIGHT:
         prediction_category = "right"
-    elif FAR_RIGHT <= bias_prediction <= RIGHT:
+    elif RIGHT <= bias_prediction <=  FAR_RIGHT:
         prediction_category = "moderately right"
-    elif RIGHT <= bias_prediction <= LEFT:
+    elif LEFT <= bias_prediction <= RIGHT:
         prediction_category = "neutral"
-    elif bias_prediction > FAR_LEFT:
-        prediction_category = "left"
-    elif FAR_LEFT >= bias_prediction >= LEFT:
+    elif FAR_LEFT <= bias_prediction <= LEFT:
         prediction_category = "moderately left"
+    elif MIN_LEFT <= bias_prediction <=  FAR_LEFT:
+        prediction_category = "left"
+
+    print("Prediction_category: "+ str(prediction_category))
     
     return prediction_category
