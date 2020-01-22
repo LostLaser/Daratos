@@ -26,7 +26,6 @@ def predict_bias(content):
     except:
         return None
 
-    print(bias_prediction)
     # Putting bias return value into a category
     prediction_category = ""
     
@@ -41,6 +40,4 @@ def predict_bias(content):
     elif MIN_LEFT <= bias_prediction <=  FAR_LEFT:
         prediction_category = "left"
 
-    print("Prediction_category: "+ str(prediction_category))
-    
-    return prediction_category
+    return prediction_category, bias_prediction
