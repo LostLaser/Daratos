@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: daratos-api
-          image: gcr.io/daratos/daratos-api:v1
+          image: gcr.io/daratos/daratos-api
           ports:
             - containerPort: 8080
           resources:
