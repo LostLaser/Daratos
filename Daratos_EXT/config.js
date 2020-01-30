@@ -5,7 +5,8 @@ var config = {
 // production variables
 chrome.management.getSelf(function(result){
     var env = result.installType
+    
     if (env != "development") {
-        config["daratos_api_url"] = "https://"
+        config["daratos_api_url"] = "http://34.69.252.185"
     }
 })
