@@ -1,8 +1,7 @@
 var config = chrome.extension.getBackgroundPage().config;
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("bias_button").onclick = fetch_bias; 
-    console.log("API url is", config.daratos_api_url)  
+    document.getElementById("bias_button").onclick = fetch_bias;  
 });
 
 function fetch_bias(){
