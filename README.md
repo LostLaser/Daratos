@@ -15,7 +15,7 @@ You can install the web extension [here](#) (Link to be added later).
   2. Make sure python 3.7 is installed on your machine.
   1. Install dependencies.
      ```
-     cd Daratos_API/flask
+     cd Daratos_API
      pip install -r requirements.txt
      ```
   2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
