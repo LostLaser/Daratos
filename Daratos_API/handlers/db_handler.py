@@ -31,3 +31,11 @@ def get_xpath(domain):
         x_path = local_db.get(domain)
 
     return x_path
+
+# check if database connection is healthy
+def db_health():
+    try:
+        db.collection(u'NewsSite')
+        return "UP"
+    except:
+        return "DOWN"

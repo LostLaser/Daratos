@@ -41,3 +41,12 @@ def predict_bias(content):
         prediction_category = "left"
 
     return prediction_category, bias_prediction
+
+# check if prediction connection is healthy
+def prediction_health():
+    ret_val = rqst.get(config.PREDICTION_API_URL)
+
+    if ret_val.status_code == 200:
+        return "UP"
+    else:
+        return "DOWN"
