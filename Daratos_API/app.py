@@ -13,7 +13,12 @@ def info():
 
 @app.route('/health', methods=['GET'])
 def home():
-    return 'We are up!'
+    health = {}
+    health["Status"] = "UP"
+    health["DB"] = db_handler.db_health()
+    health["Prediction AI"] = prediction_handler.prediction_health()
+
+    return jsonify(health)
 
 @app.route('/bias', methods=['POST'])
 def bias_calc():
