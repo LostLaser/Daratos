@@ -18,9 +18,11 @@ def predict_bias(content):
     # Send text to bias predictor API
     ret_val = rqst.post(config.PREDICTION_API_URL+"/bert", data)
     
-    if ret_val.text == "Error" or ret_val.status_code not in range(200, 300):
+    if ret_val.status_code not in range(200, 300):
         raise api_exception.InvalidUsage('Error connecting to bias predictor', status_code = 503)
-    
+    else if ret_val.text == "Error":
+        raise api_exception.InvalidUsage('There was a problem with the api call bias predictor', status_code=400)
+
     try:
         bias_prediction = float(ret_val.text)
     except:
