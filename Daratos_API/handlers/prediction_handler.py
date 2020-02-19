@@ -20,7 +20,7 @@ def predict_bias(content):
     
     if ret_val.status_code not in range(200, 300):
         raise api_exception.InvalidUsage('Error connecting to bias predictor', status_code = 503)
-    else if ret_val.text == "Error":
+    elif ret_val.text == "Error":
         raise api_exception.InvalidUsage('There was a problem with the api call bias predictor', status_code=400)
 
     try:
