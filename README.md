@@ -2,6 +2,8 @@
 
 Daratos is a tool to determine the political leaning of a news article that you find on the web. Bias predictions are pulled from [The Bipartisan Press'](https://www.thebipartisanpress.com/) AI.
 
+[![Build Status](https://dev.azure.com/jtgolds6/Daratos/_apis/build/status/Daratos-API%20Docker%20container-CI?branchName=master)](https://dev.azure.com/jtgolds6/Daratos/_build/latest?definitionId=3&branchName=master)
+
 ## Consumer Offerings
 You can install the chrome web extension [here](https://chrome.google.com/webstore/detail/daratos/fkaiddmagelkbjnnjcnekcnohmkbplkb).
 
