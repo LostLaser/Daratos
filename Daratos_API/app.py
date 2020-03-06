@@ -1,9 +1,8 @@
 import sys
 from flask import request, jsonify, Flask
 
-from handlers import db_handler, prediction_handler, api_exception
+from handlers import db_handler, bias, api_exception, text_extraction
 import config
-import requests as rqst
 
 app = Flask(__name__)
 
@@ -16,7 +15,7 @@ def home():
     health = {}
     health["Status"] = "UP"
     health["DB"] = db_handler.db_health()
-    health["Prediction AI"] = prediction_handler.prediction_health()
+    health["Prediction AI"] = bias.health()
 
     return jsonify(health)
 
@@ -37,20 +36,29 @@ def bias_calc():
     json_data = request.get_json()
     content = str(json_data.get('content'))
     
-    if not content or len(content) == 0:
-        raise api_exception.InvalidUsage('No content specified', status_code = 204)
+    prediciton = bias.handle(content)
     
-    # Retrieve prediction value
-    total_bias, bias_value = prediction_handler.predict_bias(content)
-    if not total_bias:
-        raise api_exception.InvalidUsage('Something went wrong', status_code = 400)
-        
-    ret_val = {
-        'total_bias': total_bias,
-        'bias_value': bias_value      
-    }
     
-    return jsonify(ret_val)
+    return jsonify(prediciton)
+
+@app.route('/bias/html', methods=['POST'])
+def extract_article():
+    '''
+    Endpoint to extract the content of a provided news article
+
+    Parameters: 
+        html (str): html of a news article
+
+    Returns:
+        Json object containing the article content
+    '''
+    raw_html = ''
+
+    content = text_extraction.extract(raw_html)
+
+    prediciton = bias.handle(content)
+
+    return jsonify(prediciton)
 
 @app.route('/article/xpath', methods=['POST'])
 def retrieve_xpath():
