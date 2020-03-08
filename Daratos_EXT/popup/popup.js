@@ -9,46 +9,31 @@ function fetch_bias(){
         let pathArray = tabs[0].url.split('/');
         let domain = pathArray[2];
         let domain_xpath = "";
-        call_options = {
-            method: 'post',
-            body: JSON.stringify({domain: String(domain)}),
-            headers: {'Content-Type': 'application/json'}
-        }
-        call_api(config.daratos_api_url + "/article/xpath", call_options).then(function(response){    
-            if (! response) {
-                return
-            }
 
-            domain_xpath = response.domain_xpath
-
-            if (! domain_xpath) {
-                setPopupMessage("This website is not supported yet.");
-                return
-            }
             
-            chrome.tabs.sendMessage(tabs[0].id, {xpath: domain_xpath}, function(response) {
-                let web_content = response.text_content;
-                
-                if (web_content) {
-                    bias_call_options = {
-                        method: 'post',
-                        body: JSON.stringify({content: String(web_content)}),
-                        headers: {'Content-Type': 'application/json'}
-                    }   
-                    call_api(config.daratos_api_url + "/bias", bias_call_options).then(function(response){    
-                        if (response.total_bias) {
-                            setPopupMessage(response.total_bias);
-                        }
-                        else {
-                            setPopupMessage("Oh no! Something went wrong.")
-                        }
-                    });
-                }
-                else {
-                    setPopupMessage("No content found!");
-                }
-            });
+        chrome.tabs.sendMessage(tabs[0].id, {xpath: domain_xpath}, function(response) {
+            let web_content = response.text_content;
+            
+            if (web_content) {
+                bias_call_options = {
+                    method: 'post',
+                    body: JSON.stringify({raw_html: String(web_content)}),
+                    headers: {'Content-Type': 'application/json'}
+                }   
+                call_api(config.daratos_api_url + "/bias/html", bias_call_options).then(function(response){    
+                    if (response.total_bias) {
+                        setPopupMessage(response.total_bias);
+                    }
+                    else {
+                        setPopupMessage("Oh no! Something went wrong.")
+                    }
+                });
+            }
+            else {
+                setPopupMessage("No content found!");
+            }
         });
+
     });
 }
 
@@ -74,7 +59,7 @@ async function call_api(url, options) {
     else {
         return_val = await response.json()
     }
-    console.log(return_val)
+    
     return return_val;
 }
 
