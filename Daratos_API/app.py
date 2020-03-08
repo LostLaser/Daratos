@@ -38,7 +38,6 @@ def bias_calc():
     
     prediciton = bias.handle(content)
     
-    
     return jsonify(prediciton)
 
 @app.route('/bias/html', methods=['POST'])
@@ -52,7 +51,11 @@ def extract_article():
     Returns:
         Json object containing the article content
     '''
-    raw_html = ''
+    if not request.json:
+        raise api_exception.InvalidUsage('Missing json request body', status_code = 400)
+    
+    json_data = request.get_json()
+    raw_html = str(json_data.get('raw_html'))
 
     content = text_extraction.extract(raw_html)
 
