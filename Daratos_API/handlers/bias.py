@@ -9,7 +9,23 @@ RIGHT = 5
 FAR_RIGHT = 15
 MAX_RIGHT = 45
 
-def predict_bias(content):
+def handle(content):
+    if not content or len(content) == 0:
+        raise api_exception.InvalidUsage('No content specified', status_code = 204)
+    
+    # Retrieve prediction value
+    total_bias, bias_value = predict(content)
+    if not total_bias:
+        raise api_exception.InvalidUsage('Something went wrong', status_code = 400)
+        
+    ret_val = {
+        'total_bias': total_bias,
+        'bias_value': bias_value      
+    }
+
+    return ret_val
+
+def predict(content):
     data = {
         "Text": str(content),
         "API": str(config.PREDICTION_API_KEY) 
@@ -45,7 +61,7 @@ def predict_bias(content):
     return prediction_category, bias_prediction
 
 # check if prediction connection is healthy
-def prediction_health():
+def health():
     ret_val = rqst.get(config.PREDICTION_API_URL)
 
     if ret_val.status_code in range(200, 300):
