@@ -6,12 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function fetch_bias(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        let pathArray = tabs[0].url.split('/');
-        let domain = pathArray[2];
-        let domain_xpath = "";
-
-            
-        chrome.tabs.sendMessage(tabs[0].id, {xpath: domain_xpath}, function(response) {
+        chrome.tabs.sendMessage(tabs[0].id, {}, function(response) {
+            setLoading()
             let web_content = response.text_content;
             
             if (web_content) {
