@@ -32,7 +32,7 @@ def predict(content):
     }
     
     # Send text to bias predictor API
-    ret_val = rqst.post(config.PREDICTION_API_URL+"/bert", data)
+    ret_val = rqst.post(config.PREDICTION_API_URL, data)
     
     if ret_val.status_code not in range(200, 300):
         raise api_exception.InvalidUsage('Error connecting to bias predictor', status_code = 503)
@@ -67,4 +67,5 @@ def health():
     if ret_val.status_code in range(200, 300):
         return "UP"
     else:
+        print(ret_val)
         return "DOWN"
