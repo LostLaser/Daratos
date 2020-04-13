@@ -7,8 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
 function fetch_bias(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {}, function(response) {
-            setLoading()
-            let web_content = response.text_content;
+
+            setLoading();
+            let web_content = "";
+            
+            if (typeof response == "undefined") {
+                setPopupMessage(config.ERR_RETRY)
+                return
+            }
+
+            web_content = response.text_content
             
             if (web_content) {
                 bias_call_options = {
@@ -21,12 +29,12 @@ function fetch_bias(){
                         setPopupMessage(response.total_bias);
                     }
                     else {
-                        setPopupMessage("Oh no! Something went wrong.")
+                        setPopupMessage(config.ERR_GENERIC)
                     }
                 });
             }
             else {
-                setPopupMessage("No content found!");
+                setPopupMessage(config.ERR_NO_CONTENT);
             }
         });
 
@@ -41,15 +49,14 @@ async function call_api(url, options) {
 
     let response = await fetch(url, options)
         .catch(function(response) {
-            console.log(response)
             return response;
         });
 
     if (! response.status) {
-        setPopupMessage("Oh no! Unable to connect to bias predictor.");
+        setPopupMessage(config.ERR_BIAS_CONNECTION);
     }
     else if (response.status !== 200) {
-        setPopupMessage("Whoops! Looks like there was a problem.");
+        setPopupMessage(config.ERR_GENERIC);
         console.log('There was a problem. Status Code: ' + response.status);
     }
     else {
