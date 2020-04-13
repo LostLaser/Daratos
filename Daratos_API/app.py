@@ -58,7 +58,7 @@ def extract_article():
     raw_html = str(json_data.get('raw_html'))
 
     content = text_extraction.extract(raw_html)
-    print(content)
+    
     prediciton = bias.handle(content)
 
     return jsonify(prediciton)
