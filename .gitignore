@@ -110,3 +110,6 @@ venv.bak/
 *config.json
 scalars/
 Labeling/
+
+# Ignore local setup script
+localSetup.sh

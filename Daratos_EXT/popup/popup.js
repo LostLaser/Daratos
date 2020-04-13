@@ -49,7 +49,6 @@ async function call_api(url, options) {
 
     let response = await fetch(url, options)
         .catch(function(response) {
-            console.log(response)
             return response;
         });
 
