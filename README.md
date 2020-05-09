@@ -14,31 +14,37 @@ You can install the chrome web extension [here](https://chrome.google.com/websto
 
 ## Running The Code
   1. Fork and clone the repository.
-  2. Make sure python 3.7 is installed on your machine.
+  1. Make sure python 3.7 is installed on your machine.
   1. Install dependencies.
      ```
      cd Daratos_API
      pip install -r requirements.txt
      ```
-  2. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
+  1. Run the flask api in skeleton mode. Prediction will be turned off in skeleton mode.
      ```
      export PREDICTION_API_KEY="MISSING"
      python app.py runserver
      ```
-  3. Add the extension to your browser.
+  1. Add the extension, located under Daratos_EXT, to your browser.
       - [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Temporary_Installation_in_Firefox)
       - [Chrome](https://support.google.com/chrome/a/answer/2714278?hl=en) (Follow the second step)
-  4. Navigate to any [supported web page](https://github.com/LostLaser/Daratos/blob/master/supported_sites.md).
-  5. Click the extension button near the top right of your browser window.
+  1. Navigate to any news article.
+  1. Click the extension button near the top right of your browser window.
 
 
 ## Contributing
-
-### Creating a pull request
-  - Pull requests are welcome! Please open an issue first to discuss what you would like to change.
-
 ### Coding style
-  - Try your best to follow the python coding style specified [here](https://realpython.com/python-pep8/).
+- Try your best to follow the python coding style specified [here](https://realpython.com/python-pep8/).
 
 ### Commits
-Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits.
+- Each commit should have a single purpose. If a commit contains multiple unrelated changes, the changes should be split into separate commits.
+
+### Testing
+- Code should pass all tests before a pull requst is made for the API
+  - Running the test suite:
+    1. Switch to the API folder (Daratos_API)
+    1. Run this command: ```pytest```
+    1. Correct any errors that may have shown up
+
+### Creating a pull request
+- Pull requests are welcome! Please open an issue first to discuss what you would like to change.
