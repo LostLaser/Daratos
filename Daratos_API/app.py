@@ -1,7 +1,7 @@
 import sys
 from flask import request, jsonify, Flask
 
-from handlers import db_handler, bias, api_exception, text_extraction
+from handlers import db_handler, bias, api_exception, text
 import config
 
 app = Flask(__name__)
@@ -41,7 +41,30 @@ def bias_calc():
     return jsonify(prediciton)
 
 @app.route('/bias/html', methods=['POST'])
-def extract_article():
+def bias_html():
+    '''
+    Endpoint to predict the bias of a provided news article given raw html
+
+    Parameters: 
+        html (str): html of a news article
+
+    Returns:
+        Json object containing the bias prediction
+    '''
+    if not request.json:
+        raise api_exception.InvalidUsage('Missing json request body', status_code = 400)
+    
+    json_data = request.get_json()
+    raw_html = str(json_data.get('raw_html'))
+
+    content = text.extract(raw_html)
+    
+    prediciton = bias.handle(content)
+
+    return jsonify(prediciton)
+
+@app.route('/extract/html', methods=['POST'])
+def extract_html():
     '''
     Endpoint to extract the content of a provided news article
 
@@ -55,13 +78,13 @@ def extract_article():
         raise api_exception.InvalidUsage('Missing json request body', status_code = 400)
     
     json_data = request.get_json()
+    if json_data.get('raw_html') is None:
+        raise api_exception.InvalidUsage('Missing field <raw_html>', status_code = 400)
     raw_html = str(json_data.get('raw_html'))
 
-    content = text_extraction.extract(raw_html)
-    
-    prediciton = bias.handle(content)
+    content = text.extract(raw_html)
 
-    return jsonify(prediciton)
+    return jsonify({"content": content})
 
 @app.route('/article/xpath', methods=['POST'])
 def retrieve_xpath():
