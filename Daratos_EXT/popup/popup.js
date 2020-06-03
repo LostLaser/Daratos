@@ -24,14 +24,7 @@ function fetch_bias(){
                     body: JSON.stringify({raw_html: String(web_content)}),
                     headers: {'Content-Type': 'application/json'}
                 }   
-                call_api(config.daratos_api_url + "/bias/html", bias_call_options).then(function(response){    
-                    if (response.total_bias) {
-                        setPopupMessage(response.total_bias);
-                    }
-                    else {
-                        setPopupMessage(config.ERR_GENERIC)
-                    }
-                });
+                call_api(config.daratos_api_url + "/bias/html", bias_call_options)
             }
             else {
                 setPopupMessage(config.ERR_NO_CONTENT);
@@ -55,15 +48,18 @@ async function call_api(url, options) {
     if (! response.status) {
         setPopupMessage(config.ERR_BIAS_CONNECTION);
     }
-    else if (response.status !== 200) {
+    else if (response.status == 204) {
+        setPopupMessage(config.ERR_NO_CONTENT);
+    }
+    else if (response.status < 200 || response.status >= 300) {
         setPopupMessage(config.ERR_GENERIC);
         console.log('There was a problem. Status Code: ' + response.status);
     }
-    else {
-        return_val = await response.json()
-    }
     
-    return return_val;
+    json_response = await response.json()
+    if (json_response.total_bias) {
+        setPopupMessage(json_response.total_bias);
+    }
 }
 
 function setPopupMessage(output_message) {

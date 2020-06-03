@@ -2,6 +2,7 @@ from os import environ as env
 import multiprocessing
 
 PORT = int(env.get("PORT", 8080))
+MIN_TEXT_LENGTH = 300
 DEBUG_MODE = int(env.get("DEBUG_MODE", 1))
 DB_CONFIG_PATH = str(env.get("DB_CONFIG_PATH", "./db_config.json"))
 PREDICTION_API_URL = str(env.get("PREDICTION_URL","https://api.thebipartisanpress.com/api/endpoints/daratos/bert/"))
