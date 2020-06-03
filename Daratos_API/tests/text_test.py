@@ -7,10 +7,8 @@ class TextTestCases(unittest.TestCase):
     def test_blank_extract(self):
         tester = app.test_client(self)
         response = tester.post('/extract/html', json = helper.html_from_file("test_articles/article_blank.txt"))
-        json_data = response.get_json()
         
-        self.assertEqual(response.status_code, 422)
-        self.assertTrue(response)
+        self.assertEqual(response.status_code, 204)
 
     def test_extract_cnn(self):
         tester = app.test_client(self)
