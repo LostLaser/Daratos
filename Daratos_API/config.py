@@ -13,5 +13,3 @@ if not PREDICTION_API_KEY:
 
 # Gunicorn config
 bind = ":" + str(PORT)
-workers = multiprocessing.cpu_count() * 2 + 1
-threads = 2 * multiprocessing.cpu_count()

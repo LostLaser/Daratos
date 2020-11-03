@@ -50,6 +50,9 @@ async function call_api(url, options) {
     }
     else if (response.status == 204) {
         setPopupMessage(config.ERR_NO_CONTENT);
+    } else if (response.status == 504) {
+        setPopupMessage(config.ERR_BIAS_CONNECTION)
+        console.log('There was a problem. Status Code: ' + response.status);
     }
     else if (response.status < 200 || response.status >= 300) {
         setPopupMessage(config.ERR_GENERIC);
