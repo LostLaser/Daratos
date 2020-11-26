@@ -1,17 +1,19 @@
 body {
-    font-family: 'Titillium Web','Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: 200px;
-    height: 200px;
-}
-
-.container {
-    height: 100%;
-}
-
-.valign-wrapper {
-    height: 80%;
+    height: 150px;
+    font-size: 12px;
 }
 
 #bias_button {
     background-color: #700379;
+}
+
+html {
+    height: 240px;
+}
+
+.content {
+    padding-top: 25px;
+    height: 90px;
 }

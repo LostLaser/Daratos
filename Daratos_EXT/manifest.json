@@ -7,7 +7,8 @@
     "description": "Checks news articles for political bias.",
 
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "https://www.daratos.app/"
     ],
     "icons": {
       "48": "icons/logo_48.png",
