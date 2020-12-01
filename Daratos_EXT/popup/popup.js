@@ -45,6 +45,7 @@ async function call_api(url, options) {
             return response;
         });
 
+    console.log(response.status)
     if (! response.status) {
         setPopupMessage(config.ERR_BIAS_CONNECTION);
     }
