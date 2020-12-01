@@ -1,5 +1,6 @@
 import sys
 from flask import request, jsonify, Flask
+from flask_cors import CORS, cross_origin
 
 from handlers import db_handler, bias, api_exception, text
 import config
@@ -41,6 +42,7 @@ def bias_calc():
     return jsonify(prediciton)
 
 @app.route('/bias/html', methods=['POST'])
+@cross_origin()
 def bias_html():
     '''
     Endpoint to predict the bias of a provided news article given raw html
