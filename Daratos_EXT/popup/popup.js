@@ -1,7 +1,8 @@
 var config = chrome.extension.getBackgroundPage().config;
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("bias_button").onclick = fetch_bias;  
+    document.getElementById("bias_button").onclick = fetch_bias
+    showBiasButton()
 });
 
 function fetch_bias(){
@@ -62,18 +63,37 @@ async function call_api(url, options) {
     
     json_response = await response.json()
     if (json_response.total_bias) {
-        setPopupMessage(json_response.total_bias);
+        // setPopupMessage(json_response.total_bias);
+        setBiasResult(12);
     }
 }
 
 function setPopupMessage(output_message) {
-    document.getElementById("bias_button").classList.add("hide")
-    document.getElementById("output_box").innerHTML = output_message;
-    document.getElementById("loader").classList.add("hide")
+    hideAll()
+    document.getElementById("output_box").classList.remove("hide")
+    document.getElementById("output_box").innerHTML = output_message
+}
+
+function setBiasResult(bias_num) {
+    hideAll()
+    var scale = document.getElementById("bias_output")
+    scale.classList.remove("hide")
+    scale.value = 12
 }
 
 function setLoading() {
-    document.getElementById("bias_button").classList.add("hide")
-    document.getElementById("output_box").innerHTML = "";
+    hideAll()
     document.getElementById("loader").classList.remove("hide")
+}
+
+function showBiasButton() {
+    hideAll()
+    document.getElementById("bias_button").classList.remove("hide")
+}
+
+function hideAll() {
+    document.getElementById("bias_button").classList.add("hide")
+    document.getElementById("loader").classList.add("hide")
+    document.getElementById("output_box").classList.add("hide")
+    document.getElementById("bias_output").classList.add("hide")
 }

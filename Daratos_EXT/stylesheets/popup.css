@@ -17,3 +17,30 @@ html {
     padding-top: 25px;
     height: 90px;
 }
+
+.slidecontainer {
+    width: 80%; /* Width of the outside container */
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80%; 
+    height: 25px; 
+    background: #d3d3d3; 
+    outline: none; 
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 25px; 
+    height: 25px; 
+    background: #4CAF50; 
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; 
+    height: 25px; 
+    background: #4CAF50; 
+}

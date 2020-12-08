@@ -53,13 +53,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="center">
+
                     <button class="waves-effect waves-light btn" id="bias_button">Determine bias</button>
-                </div>
-                <div class="center">
+
                     <h6 id="output_box"></h6>
+
+                    <div id="sliderDiv" class="slidecontainer"></div>
+                        <input type="range" min="-42" max="42" value="0" class="slider" id="bias_output" disabled="true">
+                    </div>
                 </div>
+                
             </div>
             <div id="bias-ack">
                 <p class="center-align">Bias calculated using <a href="https://www.thebipartisanpress.com">The Bipartisan Press'</a> AI</p>

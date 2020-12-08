@@ -11,6 +11,7 @@ feedparser==6.0.2
 filelock==3.0.12
 firebase-admin==3.1.0
 Flask==1.0.3
+Flask-Cors==3.0.9
 google-api-core==1.23.0
 google-api-python-client==1.12.8
 google-auth==1.23.0
@@ -54,5 +55,5 @@ tinysegmenter==0.3
 tldextract==3.1.0
 tqdm==4.54.0
 uritemplate==3.0.1
-urllib3==1.26.2Hi
+urllib3==1.26.2
 Werkzeug==1.0.1
