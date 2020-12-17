@@ -62,9 +62,9 @@ async function call_api(url, options) {
     }
     
     json_response = await response.json()
-    if (json_response.total_bias) {
+    if (json_response.bias_value) {
         // setPopupMessage(json_response.total_bias);
-        setBiasResult(12);
+        setBiasResult(json_response.bias_value);
     }
 }
 
@@ -78,7 +78,7 @@ function setBiasResult(bias_num) {
     hideAll()
     var scale = document.getElementById("bias_output")
     scale.classList.remove("hide")
-    scale.value = 12
+    scale.value = bias_num
 }
 
 function setLoading() {
