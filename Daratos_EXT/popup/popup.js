@@ -1,7 +1,8 @@
 var config = chrome.extension.getBackgroundPage().config;
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("bias_button").onclick = fetch_bias;  
+    document.getElementById("bias_button").onclick = fetch_bias
+    showBiasButton()
 });
 
 function fetch_bias(){
@@ -61,19 +62,50 @@ async function call_api(url, options) {
     }
     
     json_response = await response.json()
-    if (json_response.total_bias) {
-        setPopupMessage(json_response.total_bias);
+    if (json_response.bias_value && json_response.total_bias) {
+        // setPopupMessage(json_response.total_bias);
+        setBiasResult(json_response.bias_value, json_response.total_bias);
     }
 }
 
 function setPopupMessage(output_message) {
-    document.getElementById("bias_button").classList.add("hide")
-    document.getElementById("output_box").innerHTML = output_message;
-    document.getElementById("loader").classList.add("hide")
+    hideAll()
+    document.getElementById("output_box").classList.remove("hide")
+    document.getElementById("output_box").innerHTML = output_message
+}
+
+function setBiasResult(bias_num, content) {
+    var scale_label = ((Math.abs(bias_num) / config.MAX_BIAS) * 100).toFixed(2).toString()
+    if (bias_num < 0) {
+        scale_label += "% left"
+    } else {
+        scale_label += "% right"
+    }
+
+    hideAll()
+    var result_div = document.getElementById("bias_output")
+    result_div.classList.remove("hide")
+
+    var scale = document.getElementById("result_scale")
+    scale.value = bias_num
+    scale.title = scale_label
+    var message = document.getElementById("result_box")
+    message.innerHTML = content
 }
 
 function setLoading() {
-    document.getElementById("bias_button").classList.add("hide")
-    document.getElementById("output_box").innerHTML = "";
+    hideAll()
     document.getElementById("loader").classList.remove("hide")
+}
+
+function showBiasButton() {
+    hideAll()
+    document.getElementById("bias_button").classList.remove("hide")
+}
+
+function hideAll() {
+    document.getElementById("bias_button").classList.add("hide")
+    document.getElementById("loader").classList.add("hide")
+    document.getElementById("output_box").classList.add("hide")
+    document.getElementById("bias_output").classList.add("hide")
 }

@@ -3,7 +3,9 @@ var config = {
     "ERR_GENERIC": "Oh no! Something went wrong.",
     "ERR_NO_CONTENT": "No content found!",
     "ERR_RETRY": "There was a problem, please try again.",
-    "ERR_BIAS_CONNECTION": "Oh no! Unable to connect to bias predictor."
+    "ERR_BIAS_CONNECTION": "Oh no! Unable to connect to bias predictor.",
+    "MAX_BIAS": 42.0,
+    "MIN_BIAS": -42.0
 };
 
 // production variables
