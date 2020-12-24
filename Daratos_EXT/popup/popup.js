@@ -62,9 +62,9 @@ async function call_api(url, options) {
     }
     
     json_response = await response.json()
-    if (json_response.bias_value) {
+    if (json_response.bias_value && json_response.total_bias) {
         // setPopupMessage(json_response.total_bias);
-        setBiasResult(json_response.bias_value);
+        setBiasResult(json_response.bias_value, json_response.total_bias);
     }
 }
 
@@ -74,11 +74,23 @@ function setPopupMessage(output_message) {
     document.getElementById("output_box").innerHTML = output_message
 }
 
-function setBiasResult(bias_num) {
+function setBiasResult(bias_num, content) {
+    var scale_label = ((Math.abs(bias_num) / config.MAX_BIAS) * 100).toFixed(2).toString()
+    if (bias_num < 0) {
+        scale_label += "% left"
+    } else {
+        scale_label += "% right"
+    }
+
     hideAll()
-    var scale = document.getElementById("bias_output")
-    scale.classList.remove("hide")
+    var result_div = document.getElementById("bias_output")
+    result_div.classList.remove("hide")
+
+    var scale = document.getElementById("result_scale")
     scale.value = bias_num
+    scale.title = scale_label
+    var message = document.getElementById("result_box")
+    message.innerHTML = content
 }
 
 function setLoading() {

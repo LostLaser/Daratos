@@ -1,5 +1,5 @@
-vars {
-    --slider-size: 40px;
+:root {
+    --slider-height: 15px;
     --daratos-main: #700379;
 }
 
@@ -11,7 +11,7 @@ body {
 }
 
 #bias_button {
-    background-color: #700379;
+    background-color: var(--daratos-main);
 }
 
 html {
@@ -25,19 +25,21 @@ html {
 
 .slidecontainer {
     width: 80%; /* Width of the outside container */
+    margin: 0 auto;
 }
 
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;
-    height: 15px;
+    height: var(--slider-height);
     border-radius: 5px;  
-    background: #d3d3d3;
+    background-image: linear-gradient(to right, #3C80F5,#d3d3d3, red);
     outline: none;
+    margin-bottom: 0px;
 }
 
 input[type=range]::-moz-range-track {
-    background-color: #d3d3d3;
+    opacity: 0;
 }
   
 
@@ -45,11 +47,14 @@ input[type=range]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 10px;
-    height: 15px;
+    height: var(--slider-height);
     border-radius: 25%; 
-    background: #700379;
     cursor: pointer;
-    background-color: #700379;
+    background-color: black;
+}
+
+#result_box {
+    margin-top: 0px;
 }
 
   

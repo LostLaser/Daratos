@@ -56,12 +56,11 @@
 
                     <button class="waves-effect waves-light btn" id="bias_button">Determine bias</button>
 
-                    <h6 id="output_box"></h6>
-
-                    <div id="sliderDiv" class="slidecontainer">
-                        <input type="range" min="-42" max="42" value="0" class="slider" id="bias_output" disabled="true">
-                        <input type="range" min="1" max="100" value="50" class="slider">
+                    <div id="bias_output" class="slidecontainer">
+                        <input id="result_scale" type="range" min="-42" max="42" value="0" class="slider" disabled="true">
+                        <span id="result_box" title=""></span>
                     </div>
+                    <h6 id="output_box"></h6>
                 </div>
                 
             </div>
