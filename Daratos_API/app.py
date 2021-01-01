@@ -2,7 +2,7 @@ import sys
 from flask import request, jsonify, Flask
 from flask_cors import CORS, cross_origin
 
-from handlers import db_handler, bias, api_exception, text
+from handlers import db_handler, bias, api_exception
 import config
 
 app = Flask(__name__)
@@ -58,10 +58,9 @@ def bias_html():
     
     json_data = request.get_json()
     raw_html = str(json_data.get('raw_html'))
-
-    content = text.extract(raw_html)
+    url = str(json_data.get('url'))
     
-    prediciton = bias.handle(content)
+    prediciton = bias.predict_website(raw_html, url)
 
     return jsonify(prediciton)
 
@@ -87,27 +86,6 @@ def extract_html():
     content = text.extract(raw_html)
 
     return jsonify({"content": content})
-
-@app.route('/article/xpath', methods=['POST'])
-def retrieve_xpath():
-    '''
-    Endpoint to determine the web scraping details of a news website
-
-    Parameters: 
-        domain (str): domain name of a supported news website
-
-    Returns:
-        Json object containing the xpath
-    '''
-    json_data = request.get_json()
-    x_path = ""
-
-    if json_data:
-        domain = str(json_data.get('domain'))
-        x_path = db_handler.get_xpath(domain)
-
-    ret_val = {'domain_xpath': x_path}
-    return jsonify(ret_val)
 
 @app.errorhandler(api_exception.InvalidUsage)
 def handle_invalid_usage(error):

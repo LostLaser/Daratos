@@ -1,6 +1,8 @@
+from handlers import api_exception, db_handler, text
+from urllib.parse import urlparse
 import requests as rqst
+
 import config
-from handlers import api_exception
 
 MIN_LEFT = -45
 FAR_LEFT = -15
@@ -9,18 +11,25 @@ RIGHT = 5
 FAR_RIGHT = 15
 MAX_RIGHT = 45
 
-def handle(content):
+def predict_website(raw_html, url):
+    content = text.extract(raw_html)
+
     if not content or len(content) == 0:
         raise api_exception.InvalidUsage('No content specified', status_code = 204)
     
+    parsed_url = urlparse(url)
+    url = parsed_url.netloc + parsed_url.path
+
     # Retrieve prediction value
-    total_bias, bias_value = predict(content)
-    if not total_bias:
-        raise api_exception.InvalidUsage('Something went wrong', status_code = 400)
+    if db_handler.is_bias_stored(url, content):
+        bias_value = db_handler.get_stored_bias(url, content)
+    else:
+        total_bias, bias_value = predict(content)
+        db_handler.store_bias(url, content, bias_value)
         
     ret_val = {
         'total_bias': total_bias,
-        'bias_value': bias_value      
+        'bias_value': bias_value
     }
 
     return ret_val
@@ -42,7 +51,7 @@ def predict(content):
     try:
         bias_prediction = float(ret_val.text)
     except:
-        return None
+        raise api_exception.InvalidUsage('Something went wrong', status_code = 400)
 
     # Putting bias return value into a category
     prediction_category = ""
