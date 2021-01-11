@@ -18,11 +18,12 @@ function fetch_bias(){
             }
 
             web_content = response.text_content
+            let url = tabs[0].url;
             
             if (web_content) {
                 bias_call_options = {
                     method: 'post',
-                    body: JSON.stringify({raw_html: String(web_content)}),
+                    body: JSON.stringify({"raw_html": String(web_content), "url": url}),
                     headers: {'Content-Type': 'application/json'}
                 }   
                 call_api(config.daratos_api_url + "/bias/html", bias_call_options)

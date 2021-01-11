@@ -1,7 +1,10 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
 import config
+from dto import db_entities
+
 
 try:
     # Set up connection to firestore
@@ -32,6 +35,28 @@ def get_xpath(domain):
 
     return x_path
 
+def is_bias_stored(url, content):
+    if not db:
+        return False
+    
+    doc_ref = db.collection(u'StoredBiases').document(content)
+    doc = doc_ref.get()
+
+    return doc.exists
+
+def get_stored_bias(url, content):
+    if not db:
+        print("Unable to connect to the database")
+        return
+
+    doc_ref = db.collection(u'StoredBiases').document(content)
+
+def store_bias(url, content, bias_value):
+    if not db:
+        return
+    predicted_entry = db_entities.PredictedEntry(content, url, bias_value)
+    db.child(u'StoredBiases').push(predicted_entry)
+    
 # check if database connection is healthy
 def db_health():
     try:
@@ -39,3 +64,4 @@ def db_health():
         return "UP"
     except:
         return "DOWN"
+
