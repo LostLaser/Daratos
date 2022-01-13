@@ -35,7 +35,7 @@ MarkupSafe==1.1.0
 msgpack==1.0.0
 newspaper3k==0.2.8
 nltk==3.5
-Pillow==8.0.1
+Pillow==9.0.0
 proto-plus==1.11.0
 protobuf==3.14.0
 pyasn1==0.4.8
